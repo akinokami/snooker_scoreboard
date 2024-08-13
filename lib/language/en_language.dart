@@ -94,5 +94,7 @@ class EnLanguage {
     'play': 'Play',
     'new_game': 'New Game',
     'add_players': 'Add players',
+    'players': 'Players',
+    'player_name': 'Player name',
   };
 }

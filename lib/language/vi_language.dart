@@ -55,5 +55,7 @@ class ViLanguage {
     'play': 'Chơi',
     'new_game': 'Trò chơi mới',
     'add_players': 'Thêm người chơi',
+    'players': 'Người chơi',
+    'player_name': 'Tên người chơi',
   };
 }

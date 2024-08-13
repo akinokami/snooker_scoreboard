@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:snooker_scoreboard/controller/play_controller.dart';
+import 'package:snooker_scoreboard/views/screens/play/player_screen.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../utils/app_theme.dart';
 import '../../../utils/global.dart';
-import '../../widgets/custom_card.dart';
 import '../../widgets/custom_text.dart';
 
 class PlayScreen extends StatefulWidget {
@@ -121,6 +122,7 @@ class _PlayScreenState extends State<PlayScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final playController = Get.put(PlayController());
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -134,7 +136,9 @@ class _PlayScreenState extends State<PlayScreen> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: AppTheme.indicatorColor,
-        onPressed: () {},
+        onPressed: () {
+          Get.to(() => const PlayerScreen());
+        },
         label: CustomText(
           text: 'add_players'.tr,
           textColor: AppTheme.white,
@@ -144,79 +148,81 @@ class _PlayScreenState extends State<PlayScreen> {
       body: Padding(
         padding: EdgeInsets.all(10.w),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Row(
-            //   children: [
-            //     Expanded(
-            //       child: CustomCard(
-            //         widget: Row(
-            //           children: [
-            //             Icon(
-            //               Icons.sports_football,
-            //               size: 18.sp,
-            //             ),
-            //             SizedBox(
-            //               width: 10.w,
-            //             ),
-            //             CustomText(text: 'Football')
-            //           ],
-            //         ),
-            //       ),
-            //     ),
-            //     Expanded(
-            //       child: CustomCard(
-            //         widget: Row(
-            //           children: [
-            //             Icon(
-            //               Icons.sports_football,
-            //               size: 18.sp,
-            //             ),
-            //             SizedBox(
-            //               width: 10.w,
-            //             ),
-            //             CustomText(text: 'Football')
-            //           ],
-            //         ),
-            //       ),
-            //     )
-            //   ],
-            // ),
-            // Row(
-            //   children: [
-            //     Expanded(
-            //       child: CustomCard(
-            //         widget: Row(
-            //           children: [
-            //             Icon(
-            //               Icons.sports_football,
-            //               size: 18.sp,
-            //             ),
-            //             SizedBox(
-            //               width: 10.w,
-            //             ),
-            //             CustomText(text: 'Football')
-            //           ],
-            //         ),
-            //       ),
-            //     ),
-            //     Expanded(
-            //       child: CustomCard(
-            //         widget: Row(
-            //           children: [
-            //             Icon(
-            //               Icons.sports_football,
-            //               size: 18.sp,
-            //             ),
-            //             SizedBox(
-            //               width: 10.w,
-            //             ),
-            //             CustomText(text: 'Football')
-            //           ],
-            //         ),
-            //       ),
-            //     )
-            //   ],
-            // ),
+            Obx(
+              () => Image.asset(
+                playController.selectedType.value.image ?? '',
+                height: 120.h,
+              ),
+            ),
+            SizedBox(
+              height: 30.h,
+            ),
+            Obx(
+              () => Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      playController.selectedType.value =
+                          playController.stList[0];
+                    },
+                    child: Container(
+                      height: 30.h,
+                      width: 1.sw * 0.28,
+                      decoration: BoxDecoration(
+                        color: playController.selectedType.value.id ==
+                                playController.stList[0].id
+                            ? AppTheme.indicatorColor
+                            : AppTheme.greyTicket,
+                        borderRadius: BorderRadius.circular(5.r),
+                      ),
+                      alignment: Alignment.center,
+                      child: CustomText(text: playController.stList[0].name),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      playController.selectedType.value =
+                          playController.stList[1];
+                    },
+                    child: Container(
+                      height: 30.h,
+                      width: 1.sw * 0.28,
+                      decoration: BoxDecoration(
+                        color: playController.selectedType.value.id ==
+                                playController.stList[1].id
+                            ? AppTheme.indicatorColor
+                            : AppTheme.greyTicket,
+                        borderRadius: BorderRadius.circular(5.r),
+                      ),
+                      alignment: Alignment.center,
+                      child: CustomText(text: playController.stList[1].name),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      playController.selectedType.value =
+                          playController.stList[2];
+                    },
+                    child: Container(
+                      height: 30.h,
+                      width: 1.sw * 0.28,
+                      decoration: BoxDecoration(
+                        color: playController.selectedType.value.id ==
+                                playController.stList[2].id
+                            ? AppTheme.indicatorColor
+                            : AppTheme.greyTicket,
+                        borderRadius: BorderRadius.circular(5.r),
+                      ),
+                      alignment: Alignment.center,
+                      child: CustomText(text: playController.stList[2].name),
+                    ),
+                  )
+                ],
+              ),
+            )
           ],
         ),
       ),
