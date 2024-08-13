@@ -62,6 +62,12 @@ class ViLanguage {
     'start_game': 'Bắt đầu trò chơi',
     'please_select_player': 'Vui lòng chọn người chơi.',
     'break': 'Phá vỡ',
-    'points_remaining': 'Số điểm còn lại'
+    'points_remaining': 'Số điểm còn lại',
+    'finish_game': 'Kết thúc trò chơi',
+    'restart_game': 'Khởi động lại trò chơi',
+    'remove_red_from_table': 'Xóa màu đỏ khỏi bảng',
+    'breaks': 'Giải lao',
+    'foul': 'Hôi',
+    'end_of_break': 'Kết thúc giờ nghỉ',
   };
 }

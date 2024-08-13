@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:snooker_scoreboard/controller/game_controller.dart';
+import 'package:snooker_scoreboard/views/widgets/custom_button.dart';
 
 import '../../../utils/app_theme.dart';
+import '../../widgets/bottom_sheet.dart';
 import '../../widgets/custom_text.dart';
 
 class GameScreen extends StatelessWidget {
@@ -28,12 +30,51 @@ class GameScreen extends StatelessWidget {
         padding: EdgeInsets.all(10.w),
         child: Column(
           children: [
+            Expanded(
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: gameController.selectedPlayerList.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: EdgeInsets.only(bottom: 5.h),
+                    padding: EdgeInsets.all(10.w),
+                    decoration: BoxDecoration(
+                        color: AppTheme.greyTicket,
+                        borderRadius: BorderRadius.circular(5.r)),
+                    alignment: Alignment.center,
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.circle,
+                          size: 18.sp,
+                          color: AppTheme.indicatorColor,
+                        ),
+                        SizedBox(
+                          width: 10.w,
+                        ),
+                        Expanded(
+                          child: CustomText(
+                              text: gameController.selectedPlayerList[index]),
+                        ),
+                        CustomText(text: '10')
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+            SizedBox(
+              height: 10.h,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomText(text: 'break'.tr),
                 CustomText(text: '0'),
               ],
+            ),
+            SizedBox(
+              height: 10.h,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -43,7 +84,7 @@ class GameScreen extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 10.h,
+              height: 30.h,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -71,7 +112,7 @@ class GameScreen extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 10.h,
+              height: 20.h,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -92,6 +133,49 @@ class GameScreen extends StatelessWidget {
                   color: Colors.black,
                 ),
               ],
+            ),
+            SizedBox(
+              height: 20.h,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomButton(
+                    isRounded: true,
+                    height: 30.h,
+                    width: 50.w,
+                    text: '',
+                    icon: Icons.undo,
+                    onTap: () {}),
+                CustomButton(
+                    isRounded: true,
+                    height: 30.h,
+                    width: 70.w,
+                    text: 'foul'.tr,
+                    onTap: () {}),
+                CustomButton(
+                    isRounded: true,
+                    height: 30.h,
+                    width: 120.w,
+                    text: 'end_of_break'.tr,
+                    onTap: () {}),
+                CustomButton(
+                    isRounded: true,
+                    height: 30.h,
+                    width: 50.w,
+                    text: '',
+                    icon: Icons.more_horiz,
+                    onTap: () {
+                      showModalBottomSheet(
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (ctx) => const BottomSheetWidget(),
+                      );
+                    })
+              ],
+            ),
+            SizedBox(
+              height: 20.h,
             ),
           ],
         ),

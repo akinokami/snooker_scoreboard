@@ -55,7 +55,9 @@ class CustomButton extends StatelessWidget {
             Visibility(
               visible: icon != null,
               child: Padding(
-                padding: const EdgeInsets.only(right: 8.0),
+                padding: text != ''
+                    ? const EdgeInsets.only(right: 8.0)
+                    : const EdgeInsets.all(0),
                 child: Icon(
                   icon,
                   color: Colors.white,
@@ -66,7 +68,9 @@ class CustomButton extends StatelessWidget {
             Visibility(
               visible: image != null,
               child: Padding(
-                padding: const EdgeInsets.only(right: 8.0),
+                padding: text != ''
+                    ? const EdgeInsets.only(right: 8.0)
+                    : const EdgeInsets.all(0),
                 child: Image.asset(
                   image ?? '',
                   width: 20.h,

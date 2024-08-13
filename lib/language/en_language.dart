@@ -101,6 +101,12 @@ class EnLanguage {
     'start_game': 'Start Game',
     'please_select_player': 'Please select player.',
     'break': 'Break',
-    'points_remaining': 'Points Remaining'
+    'points_remaining': 'Points Remaining',
+    'finish_game': 'Finish Game',
+    'restart_game': 'Restart Game',
+    'remove_red_from_table': 'Remove red from table',
+    'breaks': 'Breaks',
+    'foul': 'Foul',
+    'end_of_break': 'End of break',
   };
 }

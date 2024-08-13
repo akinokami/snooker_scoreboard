@@ -151,8 +151,7 @@ class PlayerScreen extends StatelessWidget {
                       if (playerController.selectedPlayerList.isNotEmpty) {
                         Get.to(() => const GameScreen(), arguments: {
                           'typeId': playerController.typeId.value,
-                          'players':
-                              jsonEncode(playerController.selectedPlayerList),
+                          'players': playerController.selectedPlayerList,
                         });
                       } else {
                         constants.showSnackBar(
