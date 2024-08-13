@@ -1,10 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:snooker_scoreboard/controller/player_controller.dart';
+import 'package:snooker_scoreboard/views/screens/play/game_screen.dart';
 import 'package:snooker_scoreboard/views/widgets/custom_button.dart';
 import 'package:snooker_scoreboard/views/widgets/custom_text_form_field.dart';
 
 import '../../../utils/app_theme.dart';
+import '../../../utils/constants.dart';
 import '../../widgets/custom_text.dart';
 
 class PlayerScreen extends StatelessWidget {
@@ -12,6 +17,7 @@ class PlayerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final playerController = Get.put(PlayerController());
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -24,24 +30,141 @@ class PlayerScreen extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
         ),
-        body: Padding(
-          padding: EdgeInsets.all(10.w),
-          child: Column(
-            children: [
-              CustomTextFormField(
-                hintText: 'player_name'.tr,
-                isValidate: false,
-                prefixIcon: IconButton(
-                    onPressed: null,
-                    icon: Icon(
-                      Icons.person_rounded,
-                      size: 18.sp,
-                    )),
+        body: Obx(
+          () => Padding(
+            padding: EdgeInsets.all(10.w),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: playerController.selectedPlayerList.length,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return Container(
+                        margin: EdgeInsets.only(bottom: 5.h),
+                        padding: EdgeInsets.all(10.w),
+                        decoration: BoxDecoration(
+                            color: AppTheme.greyTicket,
+                            borderRadius: BorderRadius.circular(5.r)),
+                        alignment: Alignment.center,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CustomText(
+                                text:
+                                    playerController.selectedPlayerList[index]),
+                            InkWell(
+                              onTap: () {
+                                playerController.removeFromSelectedList(index,
+                                    playerController.selectedPlayerList[index]);
+                              },
+                              child: Icon(
+                                Icons.close_rounded,
+                                size: 18.sp,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                  SizedBox(height: 10.h),
+                  CustomText(text: 'players'.tr),
+                  SizedBox(height: 10.h),
+                  Visibility(
+                    visible: playerController.playerList.isNotEmpty,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 25.h,
+                          child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: playerController.playerList.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    playerController.addToSelectedList(index,
+                                        playerController.playerList[index]);
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(right: 5.w),
+                                    padding: EdgeInsets.all(5.w),
+                                    decoration: BoxDecoration(
+                                        color: AppTheme.greyTicket,
+                                        borderRadius:
+                                            BorderRadius.circular(5.r)),
+                                    alignment: Alignment.center,
+                                    child: Row(
+                                      children: [
+                                        CustomText(
+                                            text: playerController
+                                                .playerList[index]),
+                                        SizedBox(width: 10.w),
+                                        InkWell(
+                                          onTap: () {
+                                            playerController
+                                                .deletePlayer(index);
+                                          },
+                                          child: Icon(
+                                            Icons.close_rounded,
+                                            size: 18.sp,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }),
+                        ),
+                        SizedBox(
+                          height: 10.h,
+                        ),
+                      ],
+                    ),
+                  ),
+                  CustomTextFormField(
+                    controller: playerController.nameTxtController,
+                    hintText: 'player_name'.tr,
+                    isValidate: false,
+                    prefixIcon: IconButton(
+                        onPressed: null,
+                        icon: Icon(
+                          Icons.person_rounded,
+                          size: 18.sp,
+                        )),
+                  ),
+                  SizedBox(height: 10.h),
+                  CustomButton(
+                    text: 'add_players'.tr,
+                    icon: Icons.add,
+                    onTap: () {
+                      playerController.addPlayer();
+                    },
+                  ),
+                  SizedBox(height: 10.h),
+                  CustomButton(
+                    text: 'start_game'.tr,
+                    onTap: () {
+                      if (playerController.selectedPlayerList.isNotEmpty) {
+                        Get.to(() => const GameScreen(), arguments: {
+                          'typeId': playerController.typeId.value,
+                          'players':
+                              jsonEncode(playerController.selectedPlayerList),
+                        });
+                      } else {
+                        constants.showSnackBar(
+                            title: 'error'.tr,
+                            msg: 'please_select_player'.tr,
+                            textColor: AppTheme.red);
+                      }
+                    },
+                  )
+                ],
               ),
-              SizedBox(height: 10.h),
-              CustomButton(
-                  text: 'add_players'.tr, icon: Icons.add, onTap: () {})
-            ],
+            ),
           ),
         ));
   }

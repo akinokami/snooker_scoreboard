@@ -137,7 +137,8 @@ class _PlayScreenState extends State<PlayScreen> {
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: AppTheme.indicatorColor,
         onPressed: () {
-          Get.to(() => const PlayerScreen());
+          Get.to(() => const PlayerScreen(),
+              arguments: {'typeId': playController.selectedType.value.id});
         },
         label: CustomText(
           text: 'add_players'.tr,

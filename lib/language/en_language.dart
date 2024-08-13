@@ -96,5 +96,11 @@ class EnLanguage {
     'add_players': 'Add players',
     'players': 'Players',
     'player_name': 'Player name',
+    'error': 'Error',
+    'please_fill_player_name': 'Please fill player name.',
+    'start_game': 'Start Game',
+    'please_select_player': 'Please select player.',
+    'break': 'Break',
+    'points_remaining': 'Points Remaining'
   };
 }

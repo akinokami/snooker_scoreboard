@@ -57,5 +57,11 @@ class ViLanguage {
     'add_players': 'Thêm người chơi',
     'players': 'Người chơi',
     'player_name': 'Tên người chơi',
+    'error': 'Lỗi',
+    'please_fill_player_name': 'Vui lòng điền tên người chơi.',
+    'start_game': 'Bắt đầu trò chơi',
+    'please_select_player': 'Vui lòng chọn người chơi.',
+    'break': 'Phá vỡ',
+    'points_remaining': 'Số điểm còn lại'
   };
 }
