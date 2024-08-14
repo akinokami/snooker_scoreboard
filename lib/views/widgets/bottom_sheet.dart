@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:snooker_scoreboard/utils/app_theme.dart';
+import 'package:snooker_scoreboard/views/screens/play/break_screen.dart';
 import 'package:snooker_scoreboard/views/widgets/custom_text.dart';
 
 class BottomSheetWidget extends StatelessWidget {
@@ -77,18 +78,23 @@ class BottomSheetWidget extends StatelessWidget {
             SizedBox(
               height: 10.h,
             ),
-            Row(
-              children: [
-                Icon(
-                  Icons.pie_chart,
-                  size: 18.sp,
-                  color: AppTheme.indicatorColor,
-                ),
-                SizedBox(
-                  width: 10.w,
-                ),
-                CustomText(text: 'breaks'.tr)
-              ],
+            InkWell(
+              onTap: () {
+                Get.to(() => const BreakScreen());
+              },
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.pie_chart,
+                    size: 18.sp,
+                    color: AppTheme.indicatorColor,
+                  ),
+                  SizedBox(
+                    width: 10.w,
+                  ),
+                  CustomText(text: 'breaks'.tr)
+                ],
+              ),
             ),
           ],
         ),

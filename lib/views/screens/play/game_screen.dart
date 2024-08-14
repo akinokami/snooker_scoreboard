@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:snooker_scoreboard/controller/game_controller.dart';
+import 'package:snooker_scoreboard/models/snooker.dart';
 import 'package:snooker_scoreboard/views/widgets/custom_button.dart';
 
 import '../../../utils/app_theme.dart';
 import '../../widgets/bottom_sheet.dart';
 import '../../widgets/custom_text.dart';
+import '../../widgets/snooker_ball.dart';
 
 class GameScreen extends StatelessWidget {
   const GameScreen({super.key});
@@ -35,6 +37,15 @@ class GameScreen extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: gameController.pList.length,
                 itemBuilder: (context, index) {
+                  // int total = 0;
+                  // for (int i = 0;
+                  //     i <
+                  //         (gameController.pList[index].snookerList ?? [])
+                  //             .length;
+                  //     i++) {
+                  //   total +=
+                  //       gameController.pList[index].snookerList?[i].pts ?? 0;
+                  // }
                   return InkWell(
                     onTap: () {
                       gameController.selectedPlayer.value =
@@ -67,8 +78,13 @@ class GameScreen extends StatelessWidget {
                               child: CustomText(
                                   text: gameController.pList[index].name),
                             ),
-                            CustomText(
-                                text: "${gameController.pList[index].pts}")
+                            Obx(
+                              () => gameController.isLoading.value
+                                  ? Container()
+                                  : CustomText(
+                                      text:
+                                          "${gameController.pList[index].total}"),
+                            )
                           ],
                         ),
                       ),
@@ -100,37 +116,83 @@ class GameScreen extends StatelessWidget {
             SizedBox(
               height: 30.h,
             ),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                SnookerBall(
-                  color: Colors.red,
-                ),
-                SnookerBall(
-                  color: Colors.yellow,
-                ),
-                SnookerBall(
-                  color: Colors.green,
-                ),
-                SnookerBall(
-                  color: Colors.brown,
-                ),
-              ],
+            Obx(
+              () => Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  SnookerBall(
+                    color: Colors.red,
+                    text: gameController.redList.isNotEmpty
+                        ? "${gameController.redList.length}"
+                        : "",
+                    onTap: gameController.redList.isNotEmpty
+                        ? () {
+                            gameController.addRedSnooker();
+                          }
+                        : null,
+                  ),
+                  SnookerBall(
+                    color: Colors.yellow,
+                    onTap: gameController.isClick.value
+                        ? () {
+                            gameController.addOtherSnooker(
+                                Snooker(name: SColor.yellow.name, pts: 2));
+                          }
+                        : null,
+                  ),
+                  SnookerBall(
+                    color: Colors.green,
+                    onTap: gameController.isClick.value
+                        ? () {
+                            gameController.addOtherSnooker(
+                                Snooker(name: SColor.green.name, pts: 3));
+                          }
+                        : null,
+                  ),
+                  SnookerBall(
+                    color: Colors.brown,
+                    onTap: gameController.isClick.value
+                        ? () {
+                            gameController.addOtherSnooker(
+                                Snooker(name: SColor.brown.name, pts: 4));
+                          }
+                        : null,
+                  ),
+                ],
+              ),
             ),
             SizedBox(
               height: 20.h,
             ),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 SnookerBall(
                   color: Colors.blue,
+                  onTap: gameController.isClick.value
+                      ? () {
+                          gameController.addOtherSnooker(
+                              Snooker(name: SColor.blue.name, pts: 5));
+                        }
+                      : null,
                 ),
                 SnookerBall(
                   color: Colors.pink,
+                  onTap: gameController.isClick.value
+                      ? () {
+                          gameController.addOtherSnooker(
+                              Snooker(name: SColor.pink.name, pts: 6));
+                        }
+                      : null,
                 ),
                 SnookerBall(
                   color: Colors.black,
+                  onTap: gameController.isClick.value
+                      ? () {
+                          gameController.addOtherSnooker(
+                              Snooker(name: SColor.black.name, pts: 7));
+                        }
+                      : null,
                 ),
               ],
             ),
@@ -182,34 +244,6 @@ class GameScreen extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class SnookerBall extends StatelessWidget {
-  final String? text;
-  final Color? color;
-  const SnookerBall({super.key, this.text, this.color});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 40.h,
-      width: 40.h,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(100),
-        color: color,
-        image: const DecorationImage(
-            image: AssetImage(
-              'assets/images/overlay.webp',
-            ),
-            fit: BoxFit.cover),
-      ),
-      alignment: Alignment.center,
-      child: CustomText(
-        text: text ?? '',
-        textColor: AppTheme.white,
       ),
     );
   }
