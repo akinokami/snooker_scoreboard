@@ -172,7 +172,10 @@ class GameScreen extends StatelessWidget {
                     height: 30.h,
                     width: 120.w,
                     text: 'end_of_break'.tr,
-                    onTap: () {}),
+                    onTap: () {
+                      gameController
+                          .selectNextPlayer(gameController.pIndex.value + 1);
+                    }),
                 CustomButton(
                     isRounded: true,
                     height: 30.h,

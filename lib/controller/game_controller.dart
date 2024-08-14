@@ -6,6 +6,7 @@ class GameController extends GetxController {
   final typeId = 0.obs;
   RxList<PlayerModel> pList = <PlayerModel>[].obs;
   final selectedPlayer = PlayerModel().obs;
+  final pIndex = 0.obs;
 
   ///game
   final brek = 0.obs;
@@ -33,10 +34,21 @@ class GameController extends GetxController {
       pList.add(PlayerModel(name: selectedPlayerList[i]));
     }
     selectedPlayer.value = pList.first;
+    pIndex.value = 0;
     print(pList.length);
   }
 
   void resetGame() {
     brek.value = 0;
+  }
+
+  void selectNextPlayer(int index) {
+    if (index == pList.length) {
+      selectedPlayer.value = pList.first;
+      pIndex.value = 0;
+    } else {
+      selectedPlayer.value = pList[index];
+      pIndex.value = index;
+    }
   }
 }
