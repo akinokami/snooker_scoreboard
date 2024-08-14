@@ -108,5 +108,6 @@ class EnLanguage {
     'breaks': 'Breaks',
     'foul': 'Foul',
     'end_of_break': 'End of break',
+    'player_already_exists': 'player already exists.',
   };
 }

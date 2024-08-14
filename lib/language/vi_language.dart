@@ -69,5 +69,6 @@ class ViLanguage {
     'breaks': 'Giải lao',
     'foul': 'Hôi',
     'end_of_break': 'Kết thúc giờ nghỉ',
+    'player_already_exists': 'người chơi đã tồn tại.',
   };
 }
