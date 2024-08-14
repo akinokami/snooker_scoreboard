@@ -100,27 +100,19 @@ class GameScreen extends StatelessWidget {
             SizedBox(
               height: 30.h,
             ),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Image.asset(
-                  'assets/images/overlay.webp',
-                  height: 40.h,
+                SnookerBall(
                   color: Colors.red,
                 ),
-                Image.asset(
-                  'assets/images/overlay.webp',
-                  height: 40.h,
+                SnookerBall(
                   color: Colors.yellow,
                 ),
-                Image.asset(
-                  'assets/images/overlay.webp',
-                  height: 40.h,
+                SnookerBall(
                   color: Colors.green,
                 ),
-                Image.asset(
-                  'assets/images/overlay.webp',
-                  height: 40.h,
+                SnookerBall(
                   color: Colors.brown,
                 ),
               ],
@@ -128,22 +120,16 @@ class GameScreen extends StatelessWidget {
             SizedBox(
               height: 20.h,
             ),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Image.asset(
-                  'assets/images/overlay.webp',
-                  height: 40.h,
+                SnookerBall(
                   color: Colors.blue,
                 ),
-                Image.asset(
-                  'assets/images/overlay.webp',
-                  height: 40.h,
+                SnookerBall(
                   color: Colors.pink,
                 ),
-                Image.asset(
-                  'assets/images/overlay.webp',
-                  height: 40.h,
+                SnookerBall(
                   color: Colors.black,
                 ),
               ],
@@ -196,6 +182,34 @@ class GameScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class SnookerBall extends StatelessWidget {
+  final String? text;
+  final Color? color;
+  const SnookerBall({super.key, this.text, this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 40.h,
+      width: 40.h,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(100),
+        color: color,
+        image: const DecorationImage(
+            image: AssetImage(
+              'assets/images/overlay.webp',
+            ),
+            fit: BoxFit.cover),
+      ),
+      alignment: Alignment.center,
+      child: CustomText(
+        text: text ?? '',
+        textColor: AppTheme.white,
       ),
     );
   }
