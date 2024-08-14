@@ -5,7 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:snooker_scoreboard/language/languages.dart';
 import 'utils/custom_theme.dart';
 import 'utils/global.dart';
-import 'views/screens/home._menu.dart';
+import 'views/screens/home_menu.dart';
 
 void main() async {
   await GetStorage.init();

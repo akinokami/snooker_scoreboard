@@ -1,7 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:snooker_scoreboard/controller/game_controller.dart';
 import 'package:snooker_scoreboard/utils/app_theme.dart';
+import 'package:snooker_scoreboard/utils/constants.dart';
 import 'package:snooker_scoreboard/views/screens/play/break_screen.dart';
 import 'package:snooker_scoreboard/views/widgets/custom_text.dart';
 
@@ -10,6 +13,7 @@ class BottomSheetWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final gameController = Get.put(GameController());
     return Padding(
       padding: EdgeInsets.all(15.w),
       child: SizedBox(
@@ -30,56 +34,75 @@ class BottomSheetWidget extends StatelessWidget {
             SizedBox(
               height: 10.h,
             ),
-            Row(
-              children: [
-                Icon(
-                  Icons.square,
-                  size: 18.sp,
-                  color: AppTheme.indicatorColor,
-                ),
-                SizedBox(
-                  width: 10.w,
-                ),
-                CustomText(text: 'finish_game'.tr)
-              ],
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
-            Row(
-              children: [
-                Icon(
-                  Icons.restart_alt,
-                  size: 18.sp,
-                  color: AppTheme.indicatorColor,
-                ),
-                SizedBox(
-                  width: 10.w,
-                ),
-                CustomText(text: 'restart_game'.tr)
-              ],
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
-            Row(
-              children: [
-                Icon(
-                  Icons.delete,
-                  size: 18.sp,
-                  color: AppTheme.indicatorColor,
-                ),
-                SizedBox(
-                  width: 10.w,
-                ),
-                CustomText(text: 'remove_red_from_table'.tr)
-              ],
+            InkWell(
+              onTap: () {
+                Get.back();
+                constants.finishDialog();
+              },
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.square,
+                    size: 18.sp,
+                    color: AppTheme.indicatorColor,
+                  ),
+                  SizedBox(
+                    width: 10.w,
+                  ),
+                  CustomText(text: 'finish_game'.tr)
+                ],
+              ),
             ),
             SizedBox(
               height: 10.h,
             ),
             InkWell(
               onTap: () {
+                Get.back();
+                constants.restartDialog(gameController);
+              },
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.restart_alt,
+                    size: 18.sp,
+                    color: AppTheme.indicatorColor,
+                  ),
+                  SizedBox(
+                    width: 10.w,
+                  ),
+                  CustomText(text: 'restart_game'.tr)
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 10.h,
+            ),
+            InkWell(
+              onTap: () {
+                Get.back();
+                gameController.removeRedFromTable();
+              },
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.delete,
+                    size: 18.sp,
+                    color: AppTheme.indicatorColor,
+                  ),
+                  SizedBox(
+                    width: 10.w,
+                  ),
+                  CustomText(text: 'remove_red_from_table'.tr)
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 10.h,
+            ),
+            InkWell(
+              onTap: () {
+                Get.back();
                 Get.to(() => const BreakScreen());
               },
               child: Row(

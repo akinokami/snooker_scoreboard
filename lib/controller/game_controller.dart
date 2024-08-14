@@ -106,4 +106,8 @@ class GameController extends GetxController {
     isClick.value = false;
     isLoading.value = false;
   }
+
+  void removeRedFromTable() {
+    redList.removeLast();
+  }
 }
