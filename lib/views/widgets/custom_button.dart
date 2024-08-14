@@ -35,56 +35,64 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
+      highlightColor: Colors.grey,
+      splashColor: Colors.grey,
+      borderRadius: isRounded == true
+          ? BorderRadius.circular(100)
+          : BorderRadius.circular(5),
       onTap: onTap,
-      child: Container(
-        width: width ?? double.infinity,
-        height: height ?? 35.h,
-        decoration: BoxDecoration(
-          border: Border.all(
-              color: outlineColor ?? AppTheme.indicatorColor, width: 2),
-          borderRadius: isRounded == true
-              ? BorderRadius.circular(100)
-              : BorderRadius.circular(5),
-          color: bgColor ?? AppTheme.indicatorColor,
-        ),
-        alignment: Alignment.center,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Visibility(
-              visible: icon != null,
-              child: Padding(
-                padding: text != ''
-                    ? const EdgeInsets.only(right: 8.0)
-                    : const EdgeInsets.all(0),
-                child: Icon(
-                  icon,
-                  color: Colors.white,
-                  size: 18.sp,
+      child: Padding(
+        padding: EdgeInsets.all(2.w),
+        child: Container(
+          width: width ?? double.infinity,
+          height: height ?? 35.h,
+          decoration: BoxDecoration(
+            border: Border.all(
+                color: outlineColor ?? AppTheme.indicatorColor, width: 2),
+            borderRadius: isRounded == true
+                ? BorderRadius.circular(100)
+                : BorderRadius.circular(5),
+            color: bgColor ?? AppTheme.indicatorColor,
+          ),
+          alignment: Alignment.center,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Visibility(
+                visible: icon != null,
+                child: Padding(
+                  padding: text != ''
+                      ? const EdgeInsets.only(right: 8.0)
+                      : const EdgeInsets.all(0),
+                  child: Icon(
+                    icon,
+                    color: Colors.white,
+                    size: 18.sp,
+                  ),
                 ),
               ),
-            ),
-            Visibility(
-              visible: image != null,
-              child: Padding(
-                padding: text != ''
-                    ? const EdgeInsets.only(right: 8.0)
-                    : const EdgeInsets.all(0),
-                child: Image.asset(
-                  image ?? '',
-                  width: 20.h,
-                  height: 20.h,
+              Visibility(
+                visible: image != null,
+                child: Padding(
+                  padding: text != ''
+                      ? const EdgeInsets.only(right: 8.0)
+                      : const EdgeInsets.all(0),
+                  child: Image.asset(
+                    image ?? '',
+                    width: 20.h,
+                    height: 20.h,
+                  ),
                 ),
               ),
-            ),
-            CustomText(
-              text: text,
-              textColor: txtColor ?? Colors.white,
-              size: size ?? 14.sp,
-              fontWeight: FontWeight.normal,
-            ),
-          ],
+              CustomText(
+                text: text,
+                textColor: txtColor ?? Colors.white,
+                size: size ?? 14.sp,
+                fontWeight: FontWeight.normal,
+              ),
+            ],
+          ),
         ),
       ),
     );

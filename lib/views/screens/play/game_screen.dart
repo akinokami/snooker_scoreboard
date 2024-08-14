@@ -33,31 +33,45 @@ class GameScreen extends StatelessWidget {
             Expanded(
               child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: gameController.selectedPlayerList.length,
+                itemCount: gameController.pList.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                    margin: EdgeInsets.only(bottom: 5.h),
-                    padding: EdgeInsets.all(10.w),
-                    decoration: BoxDecoration(
-                        color: AppTheme.greyTicket,
-                        borderRadius: BorderRadius.circular(5.r)),
-                    alignment: Alignment.center,
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.circle,
-                          size: 18.sp,
-                          color: AppTheme.indicatorColor,
+                  return InkWell(
+                    onTap: () {
+                      gameController.selectedPlayer.value =
+                          gameController.pList[index];
+                    },
+                    child: Obx(
+                      () => Container(
+                        margin: EdgeInsets.only(bottom: 5.h),
+                        padding: EdgeInsets.all(10.w),
+                        decoration: BoxDecoration(
+                            color: AppTheme.greyTicket,
+                            borderRadius: BorderRadius.circular(5.r)),
+                        alignment: Alignment.center,
+                        child: Row(
+                          children: [
+                            Visibility(
+                              visible:
+                                  gameController.selectedPlayer.value.name ==
+                                      gameController.pList[index].name,
+                              child: Icon(
+                                Icons.circle,
+                                size: 18.sp,
+                                color: AppTheme.indicatorColor,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10.w,
+                            ),
+                            Expanded(
+                              child: CustomText(
+                                  text: gameController.pList[index].name),
+                            ),
+                            CustomText(
+                                text: "${gameController.pList[index].pts}")
+                          ],
                         ),
-                        SizedBox(
-                          width: 10.w,
-                        ),
-                        Expanded(
-                          child: CustomText(
-                              text: gameController.selectedPlayerList[index]),
-                        ),
-                        CustomText(text: '10')
-                      ],
+                      ),
                     ),
                   );
                 },
@@ -70,7 +84,7 @@ class GameScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomText(text: 'break'.tr),
-                CustomText(text: '0'),
+                CustomText(text: "${gameController.brek.value}"),
               ],
             ),
             SizedBox(
@@ -80,7 +94,7 @@ class GameScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomText(text: 'points_remaining'.tr),
-                CustomText(text: '0'),
+                CustomText(text: "${gameController.remainPts.value}"),
               ],
             ),
             SizedBox(
