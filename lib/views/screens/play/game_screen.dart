@@ -97,22 +97,26 @@ class GameScreen extends StatelessWidget {
             SizedBox(
               height: 10.h,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomText(text: 'break'.tr),
-                CustomText(text: "${gameController.brek.value}"),
-              ],
+            Obx(
+              () => Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CustomText(text: 'break'.tr),
+                  CustomText(text: "${gameController.brek.value}"),
+                ],
+              ),
             ),
             SizedBox(
               height: 10.h,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomText(text: 'points_remaining'.tr),
-                CustomText(text: "${gameController.remainPts.value}"),
-              ],
+            Obx(
+              () => Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CustomText(text: 'points_remaining'.tr),
+                  CustomText(text: "${gameController.remainPts.value}"),
+                ],
+              ),
             ),
             SizedBox(
               height: 30.h,
@@ -122,19 +126,28 @@ class GameScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   SnookerBall(
-                    color: Colors.red,
+                    color: gameController.isClickRed.value
+                        ? Colors.red
+                        : Colors.red.shade200,
                     text: gameController.redList.isNotEmpty
                         ? "${gameController.redList.length}"
                         : "",
                     onTap: gameController.redList.isNotEmpty
                         ? () {
                             gameController.addRedSnooker();
+                            if (gameController.redList.isNotEmpty) {
+                              gameController.isClickRed.value = true;
+                            } else {
+                              gameController.isClickRed.value = false;
+                            }
                           }
                         : null,
                   ),
                   SnookerBall(
-                    color: Colors.yellow,
-                    onTap: gameController.isClick.value
+                    color: gameController.isClickYellow.value
+                        ? Colors.yellow
+                        : Colors.yellow.shade200,
+                    onTap: gameController.isClickYellow.value
                         ? () {
                             gameController.addOtherSnooker(
                                 Snooker(name: SColor.yellow.name, pts: 2));
@@ -142,8 +155,10 @@ class GameScreen extends StatelessWidget {
                         : null,
                   ),
                   SnookerBall(
-                    color: Colors.green,
-                    onTap: gameController.isClick.value
+                    color: gameController.isClickGreen.value
+                        ? Colors.green
+                        : Colors.green.shade200,
+                    onTap: gameController.isClickGreen.value
                         ? () {
                             gameController.addOtherSnooker(
                                 Snooker(name: SColor.green.name, pts: 3));
@@ -151,8 +166,10 @@ class GameScreen extends StatelessWidget {
                         : null,
                   ),
                   SnookerBall(
-                    color: Colors.brown,
-                    onTap: gameController.isClick.value
+                    color: gameController.isClickBrown.value
+                        ? Colors.brown
+                        : Colors.brown.shade200,
+                    onTap: gameController.isClickBrown.value
                         ? () {
                             gameController.addOtherSnooker(
                                 Snooker(name: SColor.brown.name, pts: 4));
@@ -170,8 +187,10 @@ class GameScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   SnookerBall(
-                    color: Colors.blue,
-                    onTap: gameController.isClick.value
+                    color: gameController.isClickBlue.value
+                        ? Colors.blue
+                        : Colors.blue.shade200,
+                    onTap: gameController.isClickBlue.value
                         ? () {
                             gameController.addOtherSnooker(
                                 Snooker(name: SColor.blue.name, pts: 5));
@@ -179,8 +198,10 @@ class GameScreen extends StatelessWidget {
                         : null,
                   ),
                   SnookerBall(
-                    color: Colors.pink,
-                    onTap: gameController.isClick.value
+                    color: gameController.isClickPink.value
+                        ? Colors.pink
+                        : Colors.pink.shade200,
+                    onTap: gameController.isClickPink.value
                         ? () {
                             gameController.addOtherSnooker(
                                 Snooker(name: SColor.pink.name, pts: 6));
@@ -188,8 +209,10 @@ class GameScreen extends StatelessWidget {
                         : null,
                   ),
                   SnookerBall(
-                    color: Colors.black,
-                    onTap: gameController.isClick.value
+                    color: gameController.isClickBlack.value
+                        ? Colors.black
+                        : Colors.black26,
+                    onTap: gameController.isClickBlack.value
                         ? () {
                             gameController.addOtherSnooker(
                                 Snooker(name: SColor.black.name, pts: 7));
@@ -202,47 +225,52 @@ class GameScreen extends StatelessWidget {
             SizedBox(
               height: 20.h,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomButton(
-                    isRounded: true,
-                    height: 30.h,
-                    width: 50.w,
-                    text: '',
-                    icon: Icons.undo,
-                    onTap: () {}),
-                CustomButton(
-                    isRounded: true,
-                    height: 30.h,
-                    width: 70.w,
-                    text: 'foul'.tr,
-                    onTap: () {
-                      constants.foulDialog(gameController);
-                    }),
-                CustomButton(
-                    isRounded: true,
-                    height: 30.h,
-                    width: 120.w,
-                    text: 'end_of_break'.tr,
-                    onTap: () {
-                      gameController
-                          .selectNextPlayer(gameController.pIndex.value + 1);
-                    }),
-                CustomButton(
-                    isRounded: true,
-                    height: 30.h,
-                    width: 50.w,
-                    text: '',
-                    icon: Icons.more_horiz,
-                    onTap: () {
-                      showModalBottomSheet(
-                        isScrollControlled: true,
-                        context: context,
-                        builder: (ctx) => const BottomSheetWidget(),
-                      );
-                    })
-              ],
+            Obx(
+              () => Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Visibility(
+                    visible: gameController.isUndoVisible.value,
+                    child: CustomButton(
+                        isRounded: true,
+                        height: 30.h,
+                        width: 50.w,
+                        text: '',
+                        icon: Icons.undo,
+                        onTap: () {}),
+                  ),
+                  CustomButton(
+                      isRounded: true,
+                      height: 30.h,
+                      width: 70.w,
+                      text: 'foul'.tr,
+                      onTap: () {
+                        constants.foulDialog(gameController);
+                      }),
+                  CustomButton(
+                      isRounded: true,
+                      height: 30.h,
+                      width: 120.w,
+                      text: 'end_of_break'.tr,
+                      onTap: () {
+                        gameController
+                            .selectNextPlayer(gameController.pIndex.value + 1);
+                      }),
+                  CustomButton(
+                      isRounded: true,
+                      height: 30.h,
+                      width: 50.w,
+                      text: '',
+                      icon: Icons.more_horiz,
+                      onTap: () {
+                        showModalBottomSheet(
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (ctx) => const BottomSheetWidget(),
+                        );
+                      })
+                ],
+              ),
             ),
             SizedBox(
               height: 20.h,

@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:snooker_scoreboard/language/languages.dart';
-import 'utils/custom_theme.dart';
+
 import 'utils/global.dart';
 import 'views/screens/home_menu.dart';
 

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:snooker_scoreboard/controller/game_controller.dart';
-import 'package:snooker_scoreboard/models/snooker.dart';
 import 'package:snooker_scoreboard/utils/app_theme.dart';
 import 'package:snooker_scoreboard/views/widgets/custom_text.dart';
 import 'package:snooker_scoreboard/views/widgets/snooker_ball.dart';
@@ -69,7 +68,7 @@ class Constants {
       radius: 10.r,
       onConfirm: () {
         Get.back();
-        gameController.resetGame();
+        gameController.restartGame();
       },
     );
   }
@@ -77,7 +76,6 @@ class Constants {
   void foulDialog(GameController gameController) {
     Get.defaultDialog(
         titlePadding: EdgeInsets.all(10.w),
-        contentPadding: EdgeInsets.all(10.w),
         title: 'foul'.tr,
         backgroundColor: AppTheme.white,
         titleStyle: TextStyle(color: AppTheme.black, fontSize: 15.sp),
@@ -90,72 +88,101 @@ class Constants {
         radius: 10.r,
         onConfirm: () {
           Get.back();
-          gameController.resetGame();
         },
-        content: Column(
-          children: [
-            SizedBox(
-              height: 5.h,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SnookerBall(
-                  color: Colors.white,
-                  height: 25.h,
-                  text: '4',
-                  onTap: () {},
-                ),
-                SnookerBall(
-                  color: Colors.red,
-                  height: 25.h,
-                  text: '4',
-                  onTap: () {},
-                ),
-                SnookerBall(
-                  color: Colors.yellow,
-                  height: 25.h,
-                  text: '4',
-                  onTap: () {},
-                ),
-                SnookerBall(
-                  color: Colors.green,
-                  height: 25.h,
-                  text: '4',
-                  onTap: () {},
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SnookerBall(
-                  color: Colors.brown,
-                  height: 25.h,
-                  text: '4',
-                  onTap: () {},
-                ),
-                SnookerBall(
-                  color: Colors.blue,
-                  height: 25.h,
-                  text: '5',
-                  onTap: () {},
-                ),
-                SnookerBall(
-                  color: Colors.pink,
-                  height: 25.h,
-                  text: '6',
-                  onTap: () {},
-                ),
-                SnookerBall(
-                  color: Colors.black,
-                  height: 25.h,
-                  text: '7',
-                  onTap: () {},
-                ),
-              ],
-            )
-          ],
+        content: Padding(
+          padding: EdgeInsets.all(10.w),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 5.h,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SnookerBall(
+                    color: Colors.white,
+                    height: 25.h,
+                    text: '4',
+                    onTap: () {},
+                  ),
+                  SnookerBall(
+                    color: Colors.red,
+                    height: 25.h,
+                    text: '4',
+                    onTap: () {},
+                  ),
+                  SnookerBall(
+                    color: Colors.yellow,
+                    height: 25.h,
+                    text: '4',
+                    onTap: () {},
+                  ),
+                  SnookerBall(
+                    color: Colors.green,
+                    height: 25.h,
+                    text: '4',
+                    onTap: () {},
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SnookerBall(
+                    color: Colors.brown,
+                    height: 25.h,
+                    text: '4',
+                    onTap: () {},
+                  ),
+                  SnookerBall(
+                    color: Colors.blue,
+                    height: 25.h,
+                    text: '5',
+                    onTap: () {},
+                  ),
+                  SnookerBall(
+                    color: Colors.pink,
+                    height: 25.h,
+                    text: '6',
+                    onTap: () {},
+                  ),
+                  SnookerBall(
+                    color: Colors.black,
+                    height: 25.h,
+                    text: '7',
+                    onTap: () {},
+                  ),
+                ],
+              ),
+              SizedBox(height: 20.h),
+              Row(
+                children: [
+                  CustomText(
+                    text: 'miss'.tr,
+                    size: 12.sp,
+                  )
+                ],
+              ),
+              SizedBox(height: 10.h),
+              Row(
+                children: [
+                  CustomText(
+                    text: 'free_ball'.tr,
+                    size: 12.sp,
+                  )
+                ],
+              ),
+              SizedBox(height: 10.h),
+              Row(
+                children: [
+                  CustomText(
+                    text: 'remove_reds'.tr,
+                    size: 12.sp,
+                  )
+                ],
+              )
+            ],
+          ),
         ));
   }
 }

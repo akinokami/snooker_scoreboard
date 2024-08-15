@@ -22,7 +22,15 @@ class GameController extends GetxController {
   RxList<Snooker> sList = <Snooker>[].obs;
   RxList<PlayerModel> brekList = <PlayerModel>[].obs;
 
-  final isClick = false.obs;
+  final isClickRed = true.obs;
+  final isClickYellow = false.obs;
+  final isClickGreen = false.obs;
+  final isClickBrown = false.obs;
+  final isClickBlue = false.obs;
+  final isClickPink = false.obs;
+  final isClickBlack = false.obs;
+  final isGamefinish = false.obs;
+  final isUndoVisible = false.obs;
 
   @override
   void onInit() {
@@ -53,8 +61,16 @@ class GameController extends GetxController {
     }
   }
 
-  void resetGame() {
+  void restartGame() {
+    redList.clear();
+    sList.clear();
+    pList.clear();
+    brekList.clear();
+    isClickRed.value = true;
+    isGamefinish.value = false;
     brek.value = 0;
+    startGame();
+    setClickAllFalse();
   }
 
   void selectNextPlayer(int index) {
@@ -65,11 +81,14 @@ class GameController extends GetxController {
       selectedPlayer.value = pList[index];
       pIndex.value = index;
     }
-    isClick.value = false;
+    if (redList.isNotEmpty) {
+      setClickAllFalse();
+    }
   }
 
   void addRedSnooker() {
     isLoading.value = true;
+    isUndoVisible.value = true;
     redList.removeLast();
     sList.clear();
     sList.add(Snooker(name: SColor.red.name, pts: 1));
@@ -83,7 +102,14 @@ class GameController extends GetxController {
           (pList[pIndex.value].snookerList?[j].pts ?? 0);
     }
     addToBreakerList(snooker);
-    isClick.value = true;
+    calculateBreakRemainPts(snooker);
+    if (redList.isNotEmpty) {
+      setClickAllTrue();
+    } else {
+      //
+      calculateClickable(snooker);
+    }
+
     isLoading.value = false;
   }
 
@@ -100,7 +126,12 @@ class GameController extends GetxController {
           (pList[pIndex.value].snookerList?[j].pts ?? 0);
     }
     addToBreakerList(snooker);
-    isClick.value = false;
+    calculateBreakRemainPts(snooker);
+    if (redList.isNotEmpty) {
+      setClickAllFalse();
+    } else {
+      calculateClickable(snooker);
+    }
     isLoading.value = false;
   }
 
@@ -120,7 +151,68 @@ class GameController extends GetxController {
     }
   }
 
+  void calculateBreakRemainPts(Snooker snooker) {
+    brek.value += snooker.pts ?? 0;
+
+    if (snooker.name == SColor.red.name) {
+      remainPts.value -= 1;
+    } else {
+      if (redList.isNotEmpty) {
+        remainPts.value -= 7;
+      } else {
+        remainPts.value -= snooker.pts ?? 0;
+      }
+    }
+  }
+
   void removeRedFromTable() {
-    redList.removeLast();
+    if (redList.isNotEmpty) {
+      redList.removeLast();
+    }
+  }
+
+  void setClickAllTrue() {
+    isClickYellow.value = true;
+    isClickGreen.value = true;
+    isClickBrown.value = true;
+    isClickBlue.value = true;
+    isClickPink.value = true;
+    isClickBlack.value = true;
+  }
+
+  void setClickAllFalse() {
+    isClickYellow.value = false;
+    isClickGreen.value = false;
+    isClickBrown.value = false;
+    isClickBlue.value = false;
+    isClickPink.value = false;
+    isClickBlack.value = false;
+  }
+
+  void calculateClickable(Snooker snooker) {
+    if (snooker.name == SColor.red.name) {
+      isClickRed.value = false;
+      isClickYellow.value = true;
+    }
+    if (snooker.name == SColor.yellow.name) {
+      isClickYellow.value = false;
+      isClickGreen.value = true;
+    } else if (snooker.name == SColor.green.name) {
+      isClickGreen.value = false;
+      isClickBrown.value = true;
+    } else if (snooker.name == SColor.brown.name) {
+      isClickBrown.value = false;
+      isClickBlue.value = true;
+    } else if (snooker.name == SColor.blue.name) {
+      isClickBlue.value = false;
+      isClickPink.value = true;
+    } else if (snooker.name == SColor.pink.name) {
+      isClickPink.value = false;
+      isClickBlack.value = true;
+    } else if (snooker.name == SColor.black.name) {
+      isClickBlack.value = false;
+      remainPts.value = 0;
+      isGamefinish.value = true;
+    }
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_launcher_icons/main.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:snooker_scoreboard/controller/game_controller.dart';
@@ -50,49 +49,95 @@ class BreakScreen extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 10.h),
-                  SizedBox(
-                    height: 34.h,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount:
-                          gameController.brekList[index].snookerList?.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index1) {
-                        return SnookerBall(
-                          height: 30.h,
-                          color: gameController.brekList[index]
-                                      .snookerList?[index1].name ==
-                                  SColor.red.name
-                              ? Colors.red
-                              : gameController.brekList[index]
-                                          .snookerList?[index1].name ==
-                                      SColor.yellow.name
-                                  ? Colors.yellow
-                                  : gameController.brekList[index]
-                                              .snookerList?[index1].name ==
-                                          SColor.green.name
-                                      ? Colors.green
-                                      : gameController.brekList[index]
-                                                  .snookerList?[index1].name ==
-                                              SColor.brown.name
-                                          ? Colors.brown
-                                          : gameController
-                                                      .brekList[index]
-                                                      .snookerList?[index1]
-                                                      .name ==
-                                                  SColor.blue.name
-                                              ? Colors.blue
-                                              : gameController
-                                                          .brekList[index]
-                                                          .snookerList?[index1]
-                                                          .name ==
-                                                      SColor.pink.name
-                                                  ? Colors.pink
-                                                  : Colors.black,
-                        );
-                      },
+                  GridView.builder(
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 8,
+                      mainAxisSpacing: 0.w,
+                      crossAxisSpacing: 0.h,
                     ),
-                  )
+                    padding: EdgeInsets.all(8.w),
+                    itemCount:
+                        gameController.brekList[index].snookerList?.length,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index1) {
+                      return SnookerBall(
+                        height: 30.h,
+                        color: gameController.brekList[index]
+                                    .snookerList?[index1].name ==
+                                SColor.red.name
+                            ? Colors.red
+                            : gameController.brekList[index]
+                                        .snookerList?[index1].name ==
+                                    SColor.yellow.name
+                                ? Colors.yellow
+                                : gameController.brekList[index]
+                                            .snookerList?[index1].name ==
+                                        SColor.green.name
+                                    ? Colors.green
+                                    : gameController.brekList[index]
+                                                .snookerList?[index1].name ==
+                                            SColor.brown.name
+                                        ? Colors.brown
+                                        : gameController
+                                                    .brekList[index]
+                                                    .snookerList?[index1]
+                                                    .name ==
+                                                SColor.blue.name
+                                            ? Colors.blue
+                                            : gameController
+                                                        .brekList[index]
+                                                        .snookerList?[index1]
+                                                        .name ==
+                                                    SColor.pink.name
+                                                ? Colors.pink
+                                                : Colors.black,
+                      );
+                    },
+                  ),
+                  // SizedBox(
+                  //   height: 34.h,
+                  //   child: ListView.builder(
+                  //     shrinkWrap: true,
+                  //     itemCount:
+                  //         gameController.brekList[index].snookerList?.length,
+                  //     scrollDirection: Axis.horizontal,
+                  //     itemBuilder: (context, index1) {
+                  //       return SnookerBall(
+                  //         height: 30.h,
+                  //         color: gameController.brekList[index]
+                  //                     .snookerList?[index1].name ==
+                  //                 SColor.red.name
+                  //             ? Colors.red
+                  //             : gameController.brekList[index]
+                  //                         .snookerList?[index1].name ==
+                  //                     SColor.yellow.name
+                  //                 ? Colors.yellow
+                  //                 : gameController.brekList[index]
+                  //                             .snookerList?[index1].name ==
+                  //                         SColor.green.name
+                  //                     ? Colors.green
+                  //                     : gameController.brekList[index]
+                  //                                 .snookerList?[index1].name ==
+                  //                             SColor.brown.name
+                  //                         ? Colors.brown
+                  //                         : gameController
+                  //                                     .brekList[index]
+                  //                                     .snookerList?[index1]
+                  //                                     .name ==
+                  //                                 SColor.blue.name
+                  //                             ? Colors.blue
+                  //                             : gameController
+                  //                                         .brekList[index]
+                  //                                         .snookerList?[index1]
+                  //                                         .name ==
+                  //                                     SColor.pink.name
+                  //                                 ? Colors.pink
+                  //                                 : Colors.black,
+                  //       );
+                  //     },
+                  //   ),
+                  // )
                 ],
               ));
             }));
