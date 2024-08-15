@@ -245,6 +245,7 @@ class GameScreen extends StatelessWidget {
                       width: 70.w,
                       text: 'foul'.tr,
                       onTap: () {
+                        gameController.resetFoulData();
                         constants.foulDialog(gameController);
                       }),
                   CustomButton(

@@ -154,33 +154,103 @@ class Constants {
                   ),
                 ],
               ),
-              SizedBox(height: 20.h),
+              SizedBox(
+                height: 10.h,
+              ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomText(
                     text: 'miss'.tr,
                     size: 12.sp,
+                  ),
+                  Obx(
+                    () => Checkbox(
+                      value: gameController.isMissChecked.value,
+                      activeColor: AppTheme.indicatorColor,
+                      onChanged: (value) {
+                        gameController.isMissChecked.value = value!;
+                      },
+                    ),
                   )
                 ],
               ),
-              SizedBox(height: 10.h),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomText(
                     text: 'free_ball'.tr,
                     size: 12.sp,
+                  ),
+                  Obx(
+                    () => Checkbox(
+                      value: gameController.isFreeChecked.value,
+                      activeColor: AppTheme.indicatorColor,
+                      onChanged: (value) {
+                        gameController.isFreeChecked.value = value!;
+                      },
+                    ),
                   )
                 ],
               ),
               SizedBox(height: 10.h),
-              Row(
-                children: [
-                  CustomText(
-                    text: 'remove_reds'.tr,
-                    size: 12.sp,
-                  )
-                ],
-              )
+              Obx(
+                () => Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomText(
+                      text: 'remove_reds'.tr,
+                      size: 12.sp,
+                    ),
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: gameController.redCount.value > 0
+                              ? () {
+                                  if (gameController.redCount.value > 0) {
+                                    gameController.redCount.value -= 1;
+                                  }
+                                }
+                              : null,
+                          child: Icon(
+                            Icons.remove,
+                            size: 18.sp,
+                            color: gameController.redCount.value > 0
+                                ? Colors.black
+                                : Colors.grey,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5.w,
+                        ),
+                        CustomText(
+                          text: gameController.redCount.value.toString(),
+                          fontWeight: FontWeight.w500,
+                        ),
+                        SizedBox(
+                          width: 5.w,
+                        ),
+                        InkWell(
+                          onTap: gameController.redCount.value <
+                                  gameController.redList.length
+                              ? () {
+                                  gameController.redCount.value += 1;
+                                }
+                              : null,
+                          child: Icon(
+                            Icons.add,
+                            size: 18.sp,
+                            color: gameController.redCount.value <
+                                    gameController.redList.length
+                                ? Colors.black
+                                : Colors.grey,
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
             ],
           ),
         ));

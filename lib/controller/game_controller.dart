@@ -3,7 +3,7 @@ import 'package:snooker_scoreboard/models/player_model.dart';
 
 import '../models/snooker.dart';
 
-enum SColor { red, yellow, green, brown, blue, pink, black }
+enum SColor { red, yellow, green, brown, blue, pink, black, foul, miss }
 
 /// red 1, yellow 2, green 3, brown 4, blue 5, pink 6, black 7
 
@@ -31,6 +31,9 @@ class GameController extends GetxController {
   final isClickBlack = false.obs;
   final isGamefinish = false.obs;
   final isUndoVisible = false.obs;
+  final redCount = 0.obs;
+  final isMissChecked = false.obs;
+  final isFreeChecked = false.obs;
 
   @override
   void onInit() {
@@ -68,7 +71,10 @@ class GameController extends GetxController {
     brekList.clear();
     isClickRed.value = true;
     isGamefinish.value = false;
+    redCount.value = 0;
     brek.value = 0;
+    isMissChecked.value = false;
+    isFreeChecked.value = false;
     startGame();
     setClickAllFalse();
   }
@@ -214,5 +220,13 @@ class GameController extends GetxController {
       remainPts.value = 0;
       isGamefinish.value = true;
     }
+  }
+
+  void addFoul(Snooker snooker) {}
+
+  void resetFoulData() {
+    redCount.value = 0;
+    isMissChecked.value = false;
+    isFreeChecked.value = false;
   }
 }
