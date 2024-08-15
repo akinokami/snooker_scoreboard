@@ -70,5 +70,15 @@ class ViLanguage {
     'foul': 'Hôi',
     'end_of_break': 'Kết thúc giờ nghỉ',
     'player_already_exists': 'người chơi đã tồn tại.',
+    'are_you_sure_to_restart':
+        'Bạn có chắc chắn muốn bắt đầu lại trò chơi này không?',
+    'are_you_sure_to_finish': 'Bạn có chắc chắn muốn kết thúc trò chơi này?',
+    'yes': 'Đúng',
+    'no': 'Không',
+    'submit': 'Nộp',
+    'cancel': 'Hủy bỏ',
+    'miss': 'Cô',
+    'free_ball': 'Bóng miễn phí',
+    'remove_reds': 'Xóa màu đỏ',
   };
 }

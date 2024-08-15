@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:snooker_scoreboard/controller/game_controller.dart';
 import 'package:snooker_scoreboard/models/snooker.dart';
+import 'package:snooker_scoreboard/utils/constants.dart';
 import 'package:snooker_scoreboard/views/widgets/custom_button.dart';
 
 import '../../../utils/app_theme.dart';
@@ -118,7 +119,7 @@ class GameScreen extends StatelessWidget {
             ),
             Obx(
               () => Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   SnookerBall(
                     color: Colors.red,
@@ -164,37 +165,39 @@ class GameScreen extends StatelessWidget {
             SizedBox(
               height: 20.h,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                SnookerBall(
-                  color: Colors.blue,
-                  onTap: gameController.isClick.value
-                      ? () {
-                          gameController.addOtherSnooker(
-                              Snooker(name: SColor.blue.name, pts: 5));
-                        }
-                      : null,
-                ),
-                SnookerBall(
-                  color: Colors.pink,
-                  onTap: gameController.isClick.value
-                      ? () {
-                          gameController.addOtherSnooker(
-                              Snooker(name: SColor.pink.name, pts: 6));
-                        }
-                      : null,
-                ),
-                SnookerBall(
-                  color: Colors.black,
-                  onTap: gameController.isClick.value
-                      ? () {
-                          gameController.addOtherSnooker(
-                              Snooker(name: SColor.black.name, pts: 7));
-                        }
-                      : null,
-                ),
-              ],
+            Obx(
+              () => Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SnookerBall(
+                    color: Colors.blue,
+                    onTap: gameController.isClick.value
+                        ? () {
+                            gameController.addOtherSnooker(
+                                Snooker(name: SColor.blue.name, pts: 5));
+                          }
+                        : null,
+                  ),
+                  SnookerBall(
+                    color: Colors.pink,
+                    onTap: gameController.isClick.value
+                        ? () {
+                            gameController.addOtherSnooker(
+                                Snooker(name: SColor.pink.name, pts: 6));
+                          }
+                        : null,
+                  ),
+                  SnookerBall(
+                    color: Colors.black,
+                    onTap: gameController.isClick.value
+                        ? () {
+                            gameController.addOtherSnooker(
+                                Snooker(name: SColor.black.name, pts: 7));
+                          }
+                        : null,
+                  ),
+                ],
+              ),
             ),
             SizedBox(
               height: 20.h,
@@ -214,7 +217,9 @@ class GameScreen extends StatelessWidget {
                     height: 30.h,
                     width: 70.w,
                     text: 'foul'.tr,
-                    onTap: () {}),
+                    onTap: () {
+                      constants.foulDialog(gameController);
+                    }),
                 CustomButton(
                     isRounded: true,
                     height: 30.h,

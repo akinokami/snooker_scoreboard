@@ -109,5 +109,14 @@ class EnLanguage {
     'foul': 'Foul',
     'end_of_break': 'End of break',
     'player_already_exists': 'player already exists.',
+    'are_you_sure_to_restart': 'Are you sure you want to restart this game?',
+    'are_you_sure_to_finish': 'Are you sure you want to finish this game?',
+    'yes': 'Yes',
+    'no': 'No',
+    'submit': 'Submit',
+    'cancel': 'Cancel',
+    'miss': 'Miss',
+    'free_ball': 'Free ball',
+    'remove_reds': 'Remove reds',
   };
 }

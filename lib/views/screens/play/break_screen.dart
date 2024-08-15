@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_launcher_icons/main.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:snooker_scoreboard/controller/game_controller.dart';
@@ -27,8 +28,16 @@ class BreakScreen extends StatelessWidget {
           ),
         ),
         body: ListView.builder(
+            reverse: true,
             itemCount: gameController.brekList.length,
             itemBuilder: (context, index) {
+              int total = 0;
+              for (int i = 0;
+                  i < (gameController.brekList[index].snookerList ?? []).length;
+                  i++) {
+                total +=
+                    gameController.brekList[index].snookerList?[i].pts ?? 0;
+              }
               return CustomCard(
                   widget: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,12 +46,52 @@ class BreakScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomText(text: gameController.brekList[index].name),
-                      CustomText(text: '10'),
+                      CustomText(text: total.toString()),
                     ],
                   ),
-                  SnookerBall(
-                    height: 30.h,
-                    color: Colors.red,
+                  SizedBox(height: 10.h),
+                  SizedBox(
+                    height: 34.h,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount:
+                          gameController.brekList[index].snookerList?.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index1) {
+                        return SnookerBall(
+                          height: 30.h,
+                          color: gameController.brekList[index]
+                                      .snookerList?[index1].name ==
+                                  SColor.red.name
+                              ? Colors.red
+                              : gameController.brekList[index]
+                                          .snookerList?[index1].name ==
+                                      SColor.yellow.name
+                                  ? Colors.yellow
+                                  : gameController.brekList[index]
+                                              .snookerList?[index1].name ==
+                                          SColor.green.name
+                                      ? Colors.green
+                                      : gameController.brekList[index]
+                                                  .snookerList?[index1].name ==
+                                              SColor.brown.name
+                                          ? Colors.brown
+                                          : gameController
+                                                      .brekList[index]
+                                                      .snookerList?[index1]
+                                                      .name ==
+                                                  SColor.blue.name
+                                              ? Colors.blue
+                                              : gameController
+                                                          .brekList[index]
+                                                          .snookerList?[index1]
+                                                          .name ==
+                                                      SColor.pink.name
+                                                  ? Colors.pink
+                                                  : Colors.black,
+                        );
+                      },
+                    ),
                   )
                 ],
               ));

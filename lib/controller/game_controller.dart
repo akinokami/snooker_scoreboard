@@ -65,6 +65,7 @@ class GameController extends GetxController {
       selectedPlayer.value = pList[index];
       pIndex.value = index;
     }
+    isClick.value = false;
   }
 
   void addRedSnooker() {
@@ -73,16 +74,15 @@ class GameController extends GetxController {
     sList.clear();
     sList.add(Snooker(name: SColor.red.name, pts: 1));
     pList[pIndex.value].snookerList = sList;
-    calculateTotal();
+    calculateTotal(Snooker(name: SColor.red.name, pts: 1));
   }
 
-  void calculateTotal() {
+  void calculateTotal(Snooker snooker) {
     for (int j = 0; j < (pList[pIndex.value].snookerList ?? []).length; j++) {
       pList[pIndex.value].total = (pList[pIndex.value].total ?? 0) +
           (pList[pIndex.value].snookerList?[j].pts ?? 0);
     }
-    brekList
-        .add(PlayerModel(name: selectedPlayer.value.name, snookerList: sList));
+    addToBreakerList(snooker);
     isClick.value = true;
     isLoading.value = false;
   }
@@ -91,20 +91,33 @@ class GameController extends GetxController {
     isLoading.value = true;
     sList.clear();
     pList[pIndex.value].snookerList?.add(snooker);
-    calculateOtherTotal();
+    calculateOtherTotal(snooker);
   }
 
-  void calculateOtherTotal() {
+  void calculateOtherTotal(Snooker snooker) {
     for (int j = 0; j < (pList[pIndex.value].snookerList ?? []).length; j++) {
       pList[pIndex.value].total = (pList[pIndex.value].total ?? 0) +
           (pList[pIndex.value].snookerList?[j].pts ?? 0);
     }
-
-    //todo
-    brekList
-        .add(PlayerModel(name: selectedPlayer.value.name, snookerList: sList));
+    addToBreakerList(snooker);
     isClick.value = false;
     isLoading.value = false;
+  }
+
+  void addToBreakerList(Snooker snooker) {
+    if (brekList.isEmpty) {
+      brekList
+          .add(PlayerModel(name: selectedPlayer.value.name, snookerList: []));
+      brekList.last.snookerList?.add(snooker);
+    } else {
+      if (brekList.last.name == selectedPlayer.value.name) {
+        brekList.last.snookerList?.add(snooker);
+      } else {
+        brekList
+            .add(PlayerModel(name: selectedPlayer.value.name, snookerList: []));
+        brekList.last.snookerList?.add(snooker);
+      }
+    }
   }
 
   void removeRedFromTable() {
