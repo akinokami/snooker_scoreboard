@@ -35,7 +35,7 @@ class BreakScreen extends StatelessWidget {
                   i < (gameController.brekList[index].snookerList ?? []).length;
                   i++) {
                 total +=
-                    gameController.brekList[index].snookerList?[i].pts ?? 0;
+                    (gameController.brekList[index].snookerList?[i].pts ?? 0);
               }
               return CustomCard(
                   widget: Column(
@@ -52,7 +52,7 @@ class BreakScreen extends StatelessWidget {
                   GridView.builder(
                     shrinkWrap: true,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 8,
+                      crossAxisCount: 7,
                       mainAxisSpacing: 0.w,
                       crossAxisSpacing: 0.h,
                     ),
@@ -61,38 +61,63 @@ class BreakScreen extends StatelessWidget {
                         gameController.brekList[index].snookerList?.length,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index1) {
-                      return SnookerBall(
-                        height: 30.h,
-                        color: gameController.brekList[index]
-                                    .snookerList?[index1].name ==
-                                SColor.red.name
-                            ? Colors.red
-                            : gameController.brekList[index]
-                                        .snookerList?[index1].name ==
-                                    SColor.yellow.name
-                                ? Colors.yellow
-                                : gameController.brekList[index]
-                                            .snookerList?[index1].name ==
-                                        SColor.green.name
-                                    ? Colors.green
-                                    : gameController.brekList[index]
-                                                .snookerList?[index1].name ==
-                                            SColor.brown.name
-                                        ? Colors.brown
-                                        : gameController
-                                                    .brekList[index]
-                                                    .snookerList?[index1]
-                                                    .name ==
-                                                SColor.blue.name
-                                            ? Colors.blue
-                                            : gameController
-                                                        .brekList[index]
-                                                        .snookerList?[index1]
-                                                        .name ==
-                                                    SColor.pink.name
-                                                ? Colors.pink
-                                                : Colors.black,
-                      );
+                      if (gameController
+                              .brekList[index].snookerList?[index1].isFoul ==
+                          true) {
+                        return Container(
+                            height: 20.h,
+                            decoration: BoxDecoration(
+                              border: Border.all(),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CustomText(
+                                  text: 'foul'.tr,
+                                  size: 12.sp,
+                                ),
+                                CustomText(
+                                  text: gameController
+                                      .brekList[index].snookerList?[index1].pts
+                                      .toString(),
+                                  size: 12.sp,
+                                )
+                              ],
+                            ));
+                      } else {
+                        return SnookerBall(
+                          height: 30.h,
+                          color: gameController.brekList[index]
+                                      .snookerList?[index1].name ==
+                                  SColor.red.name
+                              ? Colors.red
+                              : gameController.brekList[index]
+                                          .snookerList?[index1].name ==
+                                      SColor.yellow.name
+                                  ? Colors.yellow
+                                  : gameController.brekList[index]
+                                              .snookerList?[index1].name ==
+                                          SColor.green.name
+                                      ? Colors.green
+                                      : gameController.brekList[index]
+                                                  .snookerList?[index1].name ==
+                                              SColor.brown.name
+                                          ? Colors.brown
+                                          : gameController
+                                                      .brekList[index]
+                                                      .snookerList?[index1]
+                                                      .name ==
+                                                  SColor.blue.name
+                                              ? Colors.blue
+                                              : gameController
+                                                          .brekList[index]
+                                                          .snookerList?[index1]
+                                                          .name ==
+                                                      SColor.pink.name
+                                                  ? Colors.pink
+                                                  : Colors.black,
+                        );
+                      }
                     },
                   ),
                   // SizedBox(

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:snooker_scoreboard/controller/game_controller.dart';
 import 'package:snooker_scoreboard/models/snooker.dart';
 import 'package:snooker_scoreboard/utils/constants.dart';
+import 'package:snooker_scoreboard/views/screens/play/break_screen.dart';
 import 'package:snooker_scoreboard/views/widgets/custom_button.dart';
 
 import '../../../utils/app_theme.dart';
@@ -226,52 +227,83 @@ class GameScreen extends StatelessWidget {
               height: 20.h,
             ),
             Obx(
-              () => Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Visibility(
-                    visible: gameController.isUndoVisible.value,
-                    child: CustomButton(
-                        isRounded: true,
-                        height: 30.h,
-                        width: 50.w,
-                        text: '',
-                        icon: Icons.undo,
-                        onTap: () {}),
-                  ),
-                  CustomButton(
-                      isRounded: true,
-                      height: 30.h,
-                      width: 70.w,
-                      text: 'foul'.tr,
-                      onTap: () {
-                        gameController.resetFoulData();
-                        constants.foulDialog(gameController);
-                      }),
-                  CustomButton(
-                      isRounded: true,
-                      height: 30.h,
-                      width: 120.w,
-                      text: 'end_of_break'.tr,
-                      onTap: () {
-                        gameController
-                            .selectNextPlayer(gameController.pIndex.value + 1);
-                      }),
-                  CustomButton(
-                      isRounded: true,
-                      height: 30.h,
-                      width: 50.w,
-                      text: '',
-                      icon: Icons.more_horiz,
-                      onTap: () {
-                        showModalBottomSheet(
-                          isScrollControlled: true,
-                          context: context,
-                          builder: (ctx) => const BottomSheetWidget(),
-                        );
-                      })
-                ],
-              ),
+              () => gameController.isGamefinish.value == false
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Visibility(
+                          visible: gameController.isUndoVisible.value,
+                          child: CustomButton(
+                              isRounded: true,
+                              height: 30.h,
+                              width: 50.w,
+                              text: '',
+                              icon: Icons.undo,
+                              onTap: () {}),
+                        ),
+                        CustomButton(
+                            isRounded: true,
+                            height: 30.h,
+                            width: 70.w,
+                            text: 'foul'.tr,
+                            onTap: () {
+                              gameController.resetFoulData();
+                              constants.foulDialog(gameController);
+                            }),
+                        CustomButton(
+                            isRounded: true,
+                            height: 30.h,
+                            width: 120.w,
+                            text: 'end_of_break'.tr,
+                            onTap: () {
+                              gameController.selectNextPlayer(
+                                  gameController.pIndex.value + 1);
+                            }),
+                        CustomButton(
+                            isRounded: true,
+                            height: 30.h,
+                            width: 50.w,
+                            text: '',
+                            icon: Icons.more_horiz,
+                            onTap: () {
+                              showModalBottomSheet(
+                                isScrollControlled: true,
+                                context: context,
+                                builder: (ctx) => const BottomSheetWidget(),
+                              );
+                            })
+                      ],
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomButton(
+                            isRounded: true,
+                            height: 30.h,
+                            width: 120.w,
+                            text: 'new_game'.tr,
+                            onTap: () {
+                              gameController.restartGame();
+                            }),
+                        CustomButton(
+                            isRounded: true,
+                            height: 30.h,
+                            width: 120.w,
+                            text: 'finish_game'.tr,
+                            onTap: () {
+                              constants.finishDialog();
+                            }),
+                        CustomButton(
+                            isRounded: true,
+                            height: 30.h,
+                            width: 50.w,
+                            text: '',
+                            icon: Icons.pie_chart,
+                            onTap: () {
+                              Get.to(() => const BreakScreen());
+                            })
+                      ],
+                    ),
             ),
             SizedBox(
               height: 20.h,

@@ -2,7 +2,6 @@ class SnookerType {
   int? id;
   String? name;
   String? image;
-
   SnookerType({this.id, this.name, this.image});
 }
 

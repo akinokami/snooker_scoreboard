@@ -35,6 +35,18 @@ class GameController extends GetxController {
   final isMissChecked = false.obs;
   final isFreeChecked = false.obs;
 
+  //foul
+  final isWhiteSelected = true.obs;
+  final isRedSelected = false.obs;
+  final isYellowSelected = false.obs;
+  final isGreenSelected = false.obs;
+  final isBrownSelected = false.obs;
+  final isBlueSelected = false.obs;
+  final isPinkSelected = false.obs;
+  final isBlackSelected = false.obs;
+  Rx<Snooker> selectedFoulSnooker =
+      Snooker(name: SColor.foul.name, isFoul: true, pts: -4).obs;
+
   @override
   void onInit() {
     typeId.value = Get.arguments['typeId'];
@@ -71,12 +83,10 @@ class GameController extends GetxController {
     brekList.clear();
     isClickRed.value = true;
     isGamefinish.value = false;
-    redCount.value = 0;
     brek.value = 0;
-    isMissChecked.value = false;
-    isFreeChecked.value = false;
     startGame();
     setClickAllFalse();
+    resetFoulData();
   }
 
   void selectNextPlayer(int index) {
@@ -174,6 +184,7 @@ class GameController extends GetxController {
   void removeRedFromTable() {
     if (redList.isNotEmpty) {
       redList.removeLast();
+      remainPts.value -= 8;
     }
   }
 
@@ -222,11 +233,24 @@ class GameController extends GetxController {
     }
   }
 
-  void addFoul(Snooker snooker) {}
+  void addFoul() {
+    print(selectedFoulSnooker.value.pts);
+    addOtherSnooker(selectedFoulSnooker.value);
+  }
 
   void resetFoulData() {
     redCount.value = 0;
     isMissChecked.value = false;
     isFreeChecked.value = false;
+    isWhiteSelected.value = true;
+    isRedSelected.value = false;
+    isYellowSelected.value = false;
+    isGreenSelected.value = false;
+    isBrownSelected.value = false;
+    isBlueSelected.value = false;
+    isPinkSelected.value = false;
+    isBlackSelected.value = false;
+    selectedFoulSnooker.value =
+        Snooker(name: SColor.foul.name, isFoul: true, pts: -4);
   }
 }
