@@ -34,8 +34,11 @@ class BreakScreen extends StatelessWidget {
               for (int i = 0;
                   i < (gameController.brekList[index].snookerList ?? []).length;
                   i++) {
-                total +=
-                    (gameController.brekList[index].snookerList?[i].pts ?? 0);
+                if ((gameController.brekList[index].snookerList?[i].pts ?? 0) >
+                    0) {
+                  total +=
+                      (gameController.brekList[index].snookerList?[i].pts ?? 0);
+                }
               }
               return CustomCard(
                   widget: Column(
@@ -65,8 +68,10 @@ class BreakScreen extends StatelessWidget {
                               .brekList[index].snookerList?[index1].isFoul ==
                           true) {
                         return Container(
-                            height: 20.h,
+                            //height: 20.h,
+                            margin: EdgeInsets.only(top: 5.h, bottom: 5.h),
                             decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.r),
                               border: Border.all(),
                             ),
                             child: Row(
@@ -84,6 +89,23 @@ class BreakScreen extends StatelessWidget {
                                 )
                               ],
                             ));
+                      } else if (gameController
+                              .brekList[index].snookerList?[index1].isMiss ==
+                          true) {
+                        return Container(
+                          //height: 20.h,
+                          margin: EdgeInsets.only(top: 5.h, bottom: 5.h),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.r),
+                            border: Border.all(),
+                          ),
+                          child: Center(
+                            child: CustomText(
+                              text: 'miss'.tr,
+                              size: 12.sp,
+                            ),
+                          ),
+                        );
                       } else {
                         return SnookerBall(
                           height: 30.h,
@@ -116,53 +138,15 @@ class BreakScreen extends StatelessWidget {
                                                       SColor.pink.name
                                                   ? Colors.pink
                                                   : Colors.black,
+                          text: gameController.brekList[index]
+                                      .snookerList?[index1].isFree ==
+                                  true
+                              ? 'FB'
+                              : '',
                         );
                       }
                     },
                   ),
-                  // SizedBox(
-                  //   height: 34.h,
-                  //   child: ListView.builder(
-                  //     shrinkWrap: true,
-                  //     itemCount:
-                  //         gameController.brekList[index].snookerList?.length,
-                  //     scrollDirection: Axis.horizontal,
-                  //     itemBuilder: (context, index1) {
-                  //       return SnookerBall(
-                  //         height: 30.h,
-                  //         color: gameController.brekList[index]
-                  //                     .snookerList?[index1].name ==
-                  //                 SColor.red.name
-                  //             ? Colors.red
-                  //             : gameController.brekList[index]
-                  //                         .snookerList?[index1].name ==
-                  //                     SColor.yellow.name
-                  //                 ? Colors.yellow
-                  //                 : gameController.brekList[index]
-                  //                             .snookerList?[index1].name ==
-                  //                         SColor.green.name
-                  //                     ? Colors.green
-                  //                     : gameController.brekList[index]
-                  //                                 .snookerList?[index1].name ==
-                  //                             SColor.brown.name
-                  //                         ? Colors.brown
-                  //                         : gameController
-                  //                                     .brekList[index]
-                  //                                     .snookerList?[index1]
-                  //                                     .name ==
-                  //                                 SColor.blue.name
-                  //                             ? Colors.blue
-                  //                             : gameController
-                  //                                         .brekList[index]
-                  //                                         .snookerList?[index1]
-                  //                                         .name ==
-                  //                                     SColor.pink.name
-                  //                                 ? Colors.pink
-                  //                                 : Colors.black,
-                  //       );
-                  //     },
-                  //   ),
-                  // )
                 ],
               ));
             }));

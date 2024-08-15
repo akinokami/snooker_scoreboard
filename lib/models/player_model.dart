@@ -2,8 +2,14 @@ import 'package:snooker_scoreboard/models/snooker.dart';
 
 class PlayerModel {
   String? name;
-  int? pts;
   int? total;
+  int? posPts;
+  int? negPts;
   List<Snooker>? snookerList = [];
-  PlayerModel({this.name, this.pts = 0, this.total = 0, this.snookerList});
+  PlayerModel(
+      {this.name,
+      this.total = 0,
+      this.posPts = 0,
+      this.negPts = 0,
+      this.snookerList});
 }

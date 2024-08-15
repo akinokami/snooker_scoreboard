@@ -19,7 +19,6 @@ class GameController extends GetxController {
   final brek = 0.obs;
   final remainPts = 0.obs;
   RxList<Snooker> redList = <Snooker>[].obs;
-  RxList<Snooker> sList = <Snooker>[].obs;
   RxList<PlayerModel> brekList = <PlayerModel>[].obs;
 
   final isClickRed = true.obs;
@@ -46,6 +45,8 @@ class GameController extends GetxController {
   final isBlackSelected = false.obs;
   Rx<Snooker> selectedFoulSnooker =
       Snooker(name: SColor.foul.name, isFoul: true, pts: -4).obs;
+  final isFreeBall = false.obs;
+  // final maxPts = 0.obs;
 
   @override
   void onInit() {
@@ -66,7 +67,7 @@ class GameController extends GetxController {
       remainPts.value = 147;
     }
     for (int i = 0; i < selectedPlayerList.length; i++) {
-      pList.add(PlayerModel(name: selectedPlayerList[i]));
+      pList.add(PlayerModel(name: selectedPlayerList[i], snookerList: []));
     }
     selectedPlayer.value = pList.first;
     pIndex.value = 0;
@@ -78,7 +79,7 @@ class GameController extends GetxController {
 
   void restartGame() {
     redList.clear();
-    sList.clear();
+
     pList.clear();
     brekList.clear();
     isClickRed.value = true;
@@ -100,22 +101,31 @@ class GameController extends GetxController {
     if (redList.isNotEmpty) {
       setClickAllFalse();
     }
+    brek.value = 0;
   }
 
   void addRedSnooker() {
     isLoading.value = true;
     isUndoVisible.value = true;
     redList.removeLast();
-    sList.clear();
-    sList.add(Snooker(name: SColor.red.name, pts: 1));
-    pList[pIndex.value].snookerList = sList;
+    pList[pIndex.value]
+        .snookerList
+        ?.add(Snooker(name: SColor.red.name, pts: 1));
     calculateTotal(Snooker(name: SColor.red.name, pts: 1));
   }
 
   void calculateTotal(Snooker snooker) {
-    for (int j = 0; j < (pList[pIndex.value].snookerList ?? []).length; j++) {
-      pList[pIndex.value].total = (pList[pIndex.value].total ?? 0) +
-          (pList[pIndex.value].snookerList?[j].pts ?? 0);
+    for (int p = 0; p < pList.length; p++) {
+      pList[p].posPts = 0;
+      pList[p].total = 0;
+      for (int q = 0; q < (pList[p].snookerList ?? []).length; q++) {
+        if ((pList[p].snookerList?[q].pts ?? 0) > 0) {
+          pList[p].posPts =
+              (pList[p].posPts ?? 0) + (pList[p].snookerList?[q].pts ?? 0);
+        }
+        pList[p].total = (pList[pIndex.value].total ?? 0) +
+            (pList[pIndex.value].snookerList?[q].pts ?? 0);
+      }
     }
     addToBreakerList(snooker);
     calculateBreakRemainPts(snooker);
@@ -131,15 +141,22 @@ class GameController extends GetxController {
 
   void addOtherSnooker(Snooker snooker) {
     isLoading.value = true;
-    sList.clear();
     pList[pIndex.value].snookerList?.add(snooker);
     calculateOtherTotal(snooker);
   }
 
   void calculateOtherTotal(Snooker snooker) {
-    for (int j = 0; j < (pList[pIndex.value].snookerList ?? []).length; j++) {
-      pList[pIndex.value].total = (pList[pIndex.value].total ?? 0) +
-          (pList[pIndex.value].snookerList?[j].pts ?? 0);
+    for (int p = 0; p < pList.length; p++) {
+      pList[p].posPts = 0;
+      pList[p].total = 0;
+      for (int q = 0; q < (pList[p].snookerList ?? []).length; q++) {
+        if ((pList[p].snookerList?[q].pts ?? 0) > 0) {
+          pList[p].posPts =
+              (pList[p].posPts ?? 0) + (pList[p].snookerList?[q].pts ?? 0);
+        }
+        pList[p].total = (pList[pIndex.value].total ?? 0) +
+            (pList[pIndex.value].snookerList?[q].pts ?? 0);
+      }
     }
     addToBreakerList(snooker);
     calculateBreakRemainPts(snooker);
@@ -148,6 +165,12 @@ class GameController extends GetxController {
     } else {
       calculateClickable(snooker);
     }
+    if (snooker.name == SColor.red.name) {
+      if (redList.isNotEmpty) {
+        redList.removeLast();
+      }
+    }
+    isFreeBall.value = false;
     isLoading.value = false;
   }
 
@@ -169,14 +192,21 @@ class GameController extends GetxController {
 
   void calculateBreakRemainPts(Snooker snooker) {
     brek.value += snooker.pts ?? 0;
-
-    if (snooker.name == SColor.red.name) {
-      remainPts.value -= 1;
+    if (snooker.isFoul == true ||
+        snooker.isMiss == true ||
+        snooker.isFree == true) {
+      if (snooker.isFree == true) {
+        remainPts.value -= 8;
+      }
     } else {
-      if (redList.isNotEmpty) {
-        remainPts.value -= 7;
+      if (snooker.name == SColor.red.name) {
+        remainPts.value -= 1;
       } else {
-        remainPts.value -= snooker.pts ?? 0;
+        if (redList.isNotEmpty) {
+          remainPts.value -= 7;
+        } else {
+          remainPts.value -= snooker.pts ?? 0;
+        }
       }
     }
   }
@@ -234,8 +264,31 @@ class GameController extends GetxController {
   }
 
   void addFoul() {
-    print(selectedFoulSnooker.value.pts);
     addOtherSnooker(selectedFoulSnooker.value);
+    if (isMissChecked.value) {
+      addOtherSnooker(Snooker(name: SColor.miss.name, isMiss: true, pts: 0));
+    } else if (isFreeChecked.value) {
+      isFreeBall.value = true;
+      remainPts.value += 8;
+      setClickAllTrue();
+    } else if (redCount.value > 0) {
+      for (int r = 0; r < redCount.value; r++) {
+        redList.removeAt(r);
+        remainPts.value -= 8;
+      }
+    }
+    selectNextPlayerFoul(pIndex.value + 1);
+  }
+
+  void selectNextPlayerFoul(int index) {
+    if (index == pList.length) {
+      selectedPlayer.value = pList.first;
+      pIndex.value = 0;
+    } else {
+      selectedPlayer.value = pList[index];
+      pIndex.value = index;
+    }
+    brek.value = 0;
   }
 
   void resetFoulData() {
@@ -252,5 +305,6 @@ class GameController extends GetxController {
     isBlackSelected.value = false;
     selectedFoulSnooker.value =
         Snooker(name: SColor.foul.name, isFoul: true, pts: -4);
+    isFreeBall.value = false;
   }
 }

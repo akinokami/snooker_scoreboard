@@ -107,7 +107,7 @@ class BottomSheetWidget extends StatelessWidget {
               child: Row(
                 children: [
                   Icon(
-                    Icons.pie_chart,
+                    Icons.bar_chart,
                     size: 18.sp,
                     color: AppTheme.indicatorColor,
                   ),

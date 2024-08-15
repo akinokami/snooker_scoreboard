@@ -39,14 +39,11 @@ class GameScreen extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: gameController.pList.length,
                 itemBuilder: (context, index) {
-                  // int total = 0;
-                  // for (int i = 0;
-                  //     i <
-                  //         (gameController.pList[index].snookerList ?? [])
-                  //             .length;
-                  //     i++) {
-                  //   total +=
-                  //       gameController.pList[index].snookerList?[i].pts ?? 0;
+                  // int maxPts = 0;
+                  // for (int i = 0; i < gameController.pList.length; i++) {
+                  //   if ((gameController.pList[index].total ?? 0) > maxPts) {
+                  //     maxPts = gameController.pList[index].total ?? 0;
+                  //   }
                   // }
                   return InkWell(
                     onTap: () {
@@ -85,7 +82,7 @@ class GameScreen extends StatelessWidget {
                                   ? Container()
                                   : CustomText(
                                       text:
-                                          "${gameController.pList[index].total}"),
+                                          "${gameController.pList[index].posPts} "), //(${gameController.pList[index].maxPts})
                             )
                           ],
                         ),
@@ -93,6 +90,20 @@ class GameScreen extends StatelessWidget {
                     ),
                   );
                 },
+              ),
+            ),
+            Obx(
+              () => Visibility(
+                visible: gameController.isFreeBall.value,
+                child: Container(
+                  padding: EdgeInsets.all(5.w),
+                  decoration: BoxDecoration(
+                    color: Colors.orange.shade100,
+                    borderRadius: BorderRadius.circular(10.r),
+                    border: Border.all(),
+                  ),
+                  child: CustomText(text: 'free_ball'.tr),
+                ),
               ),
             ),
             SizedBox(
@@ -103,7 +114,10 @@ class GameScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomText(text: 'break'.tr),
-                  CustomText(text: "${gameController.brek.value}"),
+                  CustomText(
+                      text: gameController.brek.value < 0
+                          ? "0"
+                          : "${gameController.brek.value}"),
                 ],
               ),
             ),
@@ -135,7 +149,13 @@ class GameScreen extends StatelessWidget {
                         : "",
                     onTap: gameController.redList.isNotEmpty
                         ? () {
-                            gameController.addRedSnooker();
+                            if (gameController.isFreeBall.value == true) {
+                              gameController.addOtherSnooker(Snooker(
+                                  name: SColor.red.name, isFree: true, pts: 1));
+                            } else {
+                              gameController.addRedSnooker();
+                            }
+
                             if (gameController.redList.isNotEmpty) {
                               gameController.isClickRed.value = true;
                             } else {
@@ -150,8 +170,15 @@ class GameScreen extends StatelessWidget {
                         : Colors.yellow.shade200,
                     onTap: gameController.isClickYellow.value
                         ? () {
-                            gameController.addOtherSnooker(
-                                Snooker(name: SColor.yellow.name, pts: 2));
+                            if (gameController.isFreeBall.value == true) {
+                              gameController.addOtherSnooker(Snooker(
+                                  name: SColor.yellow.name,
+                                  isFree: true,
+                                  pts: 1));
+                            } else {
+                              gameController.addOtherSnooker(
+                                  Snooker(name: SColor.yellow.name, pts: 2));
+                            }
                           }
                         : null,
                   ),
@@ -172,8 +199,15 @@ class GameScreen extends StatelessWidget {
                         : Colors.brown.shade200,
                     onTap: gameController.isClickBrown.value
                         ? () {
-                            gameController.addOtherSnooker(
-                                Snooker(name: SColor.brown.name, pts: 4));
+                            if (gameController.isFreeBall.value == true) {
+                              gameController.addOtherSnooker(Snooker(
+                                  name: SColor.brown.name,
+                                  isFree: true,
+                                  pts: 1));
+                            } else {
+                              gameController.addOtherSnooker(
+                                  Snooker(name: SColor.brown.name, pts: 4));
+                            }
                           }
                         : null,
                   ),
@@ -193,8 +227,15 @@ class GameScreen extends StatelessWidget {
                         : Colors.blue.shade200,
                     onTap: gameController.isClickBlue.value
                         ? () {
-                            gameController.addOtherSnooker(
-                                Snooker(name: SColor.blue.name, pts: 5));
+                            if (gameController.isFreeBall.value == true) {
+                              gameController.addOtherSnooker(Snooker(
+                                  name: SColor.blue.name,
+                                  isFree: true,
+                                  pts: 1));
+                            } else {
+                              gameController.addOtherSnooker(
+                                  Snooker(name: SColor.blue.name, pts: 5));
+                            }
                           }
                         : null,
                   ),
@@ -204,8 +245,15 @@ class GameScreen extends StatelessWidget {
                         : Colors.pink.shade200,
                     onTap: gameController.isClickPink.value
                         ? () {
-                            gameController.addOtherSnooker(
-                                Snooker(name: SColor.pink.name, pts: 6));
+                            if (gameController.isFreeBall.value == true) {
+                              gameController.addOtherSnooker(Snooker(
+                                  name: SColor.pink.name,
+                                  isFree: true,
+                                  pts: 1));
+                            } else {
+                              gameController.addOtherSnooker(
+                                  Snooker(name: SColor.pink.name, pts: 6));
+                            }
                           }
                         : null,
                   ),
@@ -215,8 +263,15 @@ class GameScreen extends StatelessWidget {
                         : Colors.black26,
                     onTap: gameController.isClickBlack.value
                         ? () {
-                            gameController.addOtherSnooker(
-                                Snooker(name: SColor.black.name, pts: 7));
+                            if (gameController.isFreeBall.value == true) {
+                              gameController.addOtherSnooker(Snooker(
+                                  name: SColor.black.name,
+                                  isFree: true,
+                                  pts: 1));
+                            } else {
+                              gameController.addOtherSnooker(
+                                  Snooker(name: SColor.black.name, pts: 7));
+                            }
                           }
                         : null,
                   ),
@@ -298,7 +353,7 @@ class GameScreen extends StatelessWidget {
                             height: 30.h,
                             width: 50.w,
                             text: '',
-                            icon: Icons.pie_chart,
+                            icon: Icons.bar_chart,
                             onTap: () {
                               Get.to(() => const BreakScreen());
                             })
