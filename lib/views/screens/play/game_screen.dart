@@ -82,7 +82,7 @@ class GameScreen extends StatelessWidget {
                                   ? Container()
                                   : CustomText(
                                       text:
-                                          "${gameController.pList[index].posPts} "), //(${gameController.pList[index].maxPts})
+                                          "${gameController.pList[index].posPts} (${gameController.pList[index].maxPts})"), //(${gameController.pList[index].maxPts})
                             )
                           ],
                         ),

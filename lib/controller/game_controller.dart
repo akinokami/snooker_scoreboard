@@ -46,7 +46,6 @@ class GameController extends GetxController {
   Rx<Snooker> selectedFoulSnooker =
       Snooker(name: SColor.foul.name, isFoul: true, pts: -4).obs;
   final isFreeBall = false.obs;
-  // final maxPts = 0.obs;
 
   @override
   void onInit() {
@@ -135,7 +134,7 @@ class GameController extends GetxController {
       //
       calculateClickable(snooker);
     }
-
+    calculateMax();
     isLoading.value = false;
   }
 
@@ -171,6 +170,7 @@ class GameController extends GetxController {
       }
     }
     isFreeBall.value = false;
+    calculateMax();
     isLoading.value = false;
   }
 
@@ -209,6 +209,17 @@ class GameController extends GetxController {
         }
       }
     }
+  }
+
+  void calculateMax() {
+    int max = 0;
+    for (int m = 0; m < pList.length; m++) {
+      // max = pList[m].total ?? 0;
+      if ((pList[m].total ?? 0) > max) {
+        max = pList[m].total ?? 0;
+      }
+    }
+    print("max>>>$max");
   }
 
   void removeRedFromTable() {
