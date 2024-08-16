@@ -280,16 +280,18 @@ class GameScreen extends StatelessWidget {
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Visibility(
-                          visible: gameController.isUndoVisible.value,
-                          child: CustomButton(
-                              isRounded: true,
-                              height: 30.h,
-                              width: 50.w,
-                              text: '',
-                              icon: Icons.undo,
-                              onTap: () {}),
-                        ),
+                        // Visibility(
+                        //   visible: gameController.isUndoVisible.value,
+                        //   child: CustomButton(
+                        //       isRounded: true,
+                        //       height: 30.h,
+                        //       width: 50.w,
+                        //       text: '',
+                        //       icon: Icons.undo,
+                        //       onTap: () {
+                        //         gameController.undo();
+                        //       }),
+                        // ),
                         CustomButton(
                             isRounded: true,
                             height: 30.h,
