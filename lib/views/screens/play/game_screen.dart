@@ -39,12 +39,6 @@ class GameScreen extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: gameController.pList.length,
                 itemBuilder: (context, index) {
-                  // int maxPts = 0;
-                  // for (int i = 0; i < gameController.pList.length; i++) {
-                  //   if ((gameController.pList[index].total ?? 0) > maxPts) {
-                  //     maxPts = gameController.pList[index].total ?? 0;
-                  //   }
-                  // }
                   return InkWell(
                     onTap: () {
                       gameController.selectedPlayer.value =
@@ -82,7 +76,7 @@ class GameScreen extends StatelessWidget {
                                   ? Container()
                                   : CustomText(
                                       text:
-                                          "${gameController.pList[index].posPts} (${gameController.pList[index].maxPts})"), //(${gameController.pList[index].maxPts})
+                                          "${(gameController.pList[index].posPts ?? 0) + (gameController.pList[index].plusFoulPts ?? 0)} (${(gameController.pList[index].posPts ?? 0) + (gameController.pList[index].plusFoulPts ?? 0) - gameController.maxPts.value})"), //(${gameController.pList[index].maxPts})
                             )
                           ],
                         ),
@@ -284,7 +278,7 @@ class GameScreen extends StatelessWidget {
             Obx(
               () => gameController.isGamefinish.value == false
                   ? Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Visibility(
                           visible: gameController.isUndoVisible.value,

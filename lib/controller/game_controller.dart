@@ -46,6 +46,7 @@ class GameController extends GetxController {
   Rx<Snooker> selectedFoulSnooker =
       Snooker(name: SColor.foul.name, isFoul: true, pts: -4).obs;
   final isFreeBall = false.obs;
+  final maxPts = 0.obs;
 
   @override
   void onInit() {
@@ -87,6 +88,7 @@ class GameController extends GetxController {
     startGame();
     setClickAllFalse();
     resetFoulData();
+    maxPts.value = 0;
   }
 
   void selectNextPlayer(int index) {
@@ -116,14 +118,18 @@ class GameController extends GetxController {
   void calculateTotal(Snooker snooker) {
     for (int p = 0; p < pList.length; p++) {
       pList[p].posPts = 0;
-      pList[p].total = 0;
+      // pList[p].total = 0;
+      pList[p].negPts = 0;
       for (int q = 0; q < (pList[p].snookerList ?? []).length; q++) {
         if ((pList[p].snookerList?[q].pts ?? 0) > 0) {
           pList[p].posPts =
               (pList[p].posPts ?? 0) + (pList[p].snookerList?[q].pts ?? 0);
+        } else {
+          pList[p].negPts =
+              (pList[p].negPts ?? 0) + (pList[p].snookerList?[q].pts ?? 0);
         }
-        pList[p].total = (pList[pIndex.value].total ?? 0) +
-            (pList[pIndex.value].snookerList?[q].pts ?? 0);
+        // pList[p].total =
+        //     (pList[p].total ?? 0) + (pList[p].snookerList?[q].pts ?? 0);
       }
     }
     addToBreakerList(snooker);
@@ -133,6 +139,12 @@ class GameController extends GetxController {
     } else {
       //
       calculateClickable(snooker);
+    }
+    for (int t = 0; t < pList.length; t++) {
+      pList[t].total = 0;
+      pList[t].total = (pList[t].posPts ?? 0) +
+          (pList[t].negPts ?? 0) +
+          (pList[t].plusFoulPts ?? 0);
     }
     calculateMax();
     isLoading.value = false;
@@ -147,14 +159,18 @@ class GameController extends GetxController {
   void calculateOtherTotal(Snooker snooker) {
     for (int p = 0; p < pList.length; p++) {
       pList[p].posPts = 0;
-      pList[p].total = 0;
+      // pList[p].total = 0;
+      pList[p].negPts = 0;
       for (int q = 0; q < (pList[p].snookerList ?? []).length; q++) {
         if ((pList[p].snookerList?[q].pts ?? 0) > 0) {
           pList[p].posPts =
               (pList[p].posPts ?? 0) + (pList[p].snookerList?[q].pts ?? 0);
+        } else {
+          pList[p].negPts =
+              (pList[p].negPts ?? 0) + (pList[p].snookerList?[q].pts ?? 0);
         }
-        pList[p].total = (pList[pIndex.value].total ?? 0) +
-            (pList[pIndex.value].snookerList?[q].pts ?? 0);
+        // pList[p].total =
+        //     (pList[p].total ?? 0) + (pList[p].snookerList?[q].pts ?? 0);
       }
     }
     addToBreakerList(snooker);
@@ -170,6 +186,21 @@ class GameController extends GetxController {
       }
     }
     isFreeBall.value = false;
+    if (snooker.isFoul == true) {
+      for (int f = 0; f < pList.length; f++) {
+        if (pList[f].name != selectedPlayer.value.name) {
+          pList[f].plusFoulPts = (pList[f].plusFoulPts ?? 0) +
+              (selectedFoulSnooker.value.pts ?? 0).abs();
+        }
+      }
+    }
+    for (int t = 0; t < pList.length; t++) {
+      pList[t].total = 0;
+      pList[t].total = (pList[t].posPts ?? 0) +
+          (pList[t].negPts ?? 0) +
+          (pList[t].plusFoulPts ?? 0);
+    }
+
     calculateMax();
     isLoading.value = false;
   }
@@ -212,14 +243,14 @@ class GameController extends GetxController {
   }
 
   void calculateMax() {
-    int max = 0;
+    int max = -100;
     for (int m = 0; m < pList.length; m++) {
-      // max = pList[m].total ?? 0;
       if ((pList[m].total ?? 0) > max) {
         max = pList[m].total ?? 0;
       }
     }
     print("max>>>$max");
+    maxPts.value = max;
   }
 
   void removeRedFromTable() {
@@ -299,6 +330,7 @@ class GameController extends GetxController {
       selectedPlayer.value = pList[index];
       pIndex.value = index;
     }
+
     brek.value = 0;
   }
 
@@ -318,4 +350,6 @@ class GameController extends GetxController {
         Snooker(name: SColor.foul.name, isFoul: true, pts: -4);
     isFreeBall.value = false;
   }
+
+  void undo() {}
 }
