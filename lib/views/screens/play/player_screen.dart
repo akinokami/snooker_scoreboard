@@ -74,7 +74,7 @@ class PlayerScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       SizedBox(
-                        height: 25.h,
+                        height: 35.h,
                         child: ListView.builder(
                             shrinkWrap: true,
                             itemCount: playerController.playerList.length,
@@ -87,7 +87,7 @@ class PlayerScreen extends StatelessWidget {
                                 },
                                 child: Container(
                                   margin: EdgeInsets.only(right: 5.w),
-                                  padding: EdgeInsets.all(5.w),
+                                  padding: EdgeInsets.all(3.w),
                                   decoration: BoxDecoration(
                                       color: AppTheme.greyTicket,
                                       borderRadius: BorderRadius.circular(5.r)),
@@ -123,11 +123,11 @@ class PlayerScreen extends StatelessWidget {
                   controller: playerController.nameTxtController,
                   hintText: 'player_name'.tr,
                   isValidate: false,
-                  prefixIcon: IconButton(
+                  prefixIcon: const IconButton(
                     onPressed: null,
                     icon: Icon(
                       Icons.person_rounded,
-                      size: 18.sp,
+                      size: 18,
                     ),
                   ),
                   onChange: (value) {
