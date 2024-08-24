@@ -1,0 +1,6 @@
+app name ： Bảng điểm bi da
+
+short title ： Bảng điểm bi da dễ dàng theo dõi điểm bi da của bạn.
+
+desc: 
+Thiết lập các khung có 6, 10 hoặc 15 màu đỏ cho 2 người chơi trở lên. Dễ dàng theo dõi điểm bi da của bạn bằng một cú chạm, quản lý bóng miễn phí và xử lý các trận hòa ở quân đen cuối cùng. Được thông báo về thời gian nghỉ hiện tại của bạn và số điểm còn lại trên bàn.

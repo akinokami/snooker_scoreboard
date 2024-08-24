@@ -3,9 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:snooker_scoreboard/language/languages.dart';
+import 'package:snooker_scoreboard/views/screens/splash_screen.dart';
 
 import 'utils/global.dart';
-import 'views/screens/home_menu.dart';
 
 void main() async {
   await GetStorage.init();
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
               ? const Locale('vi', 'VN')
               : const Locale('en', 'US'),
           fallbackLocale: const Locale('vi', 'VN'),
-          home: Home(),
+          home: const SplashScreen(),
           debugShowCheckedModeBanner: false,
         );
       },
